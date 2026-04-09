@@ -45,7 +45,12 @@
     ],
     "status": "waiting",
     "due": "",
-    "subtasks": []
+    "subtasks": [
+      {
+        "text": "Respond to R&S email",
+        "done": false
+      }
+    ]
   },
   {
     "notes": "",
