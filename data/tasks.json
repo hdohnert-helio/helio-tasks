@@ -327,5 +327,17 @@
     "status": "backlog",
     "due": "",
     "subtasks": []
+  },
+  {
+    "id": "mnrqmjf531rc",
+    "person": "Harry",
+    "text": "Confirm when GTR contract expires",
+    "tags": [
+      "finance"
+    ],
+    "status": "backlog",
+    "due": "2026-04-13",
+    "subtasks": [],
+    "notes": ""
   }
 ]
