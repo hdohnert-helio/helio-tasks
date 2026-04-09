@@ -53,6 +53,10 @@
       {
         "text": "Sign Agreement",
         "done": false
+      },
+      {
+        "text": "Set up training for Helio",
+        "done": false
       }
     ]
   },
