@@ -32,10 +32,14 @@
       "finance"
     ],
     "status": "waiting",
-    "due": "",
+    "due": "2026-04-17",
     "subtasks": [
       {
         "text": "Send Contract Addendum",
+        "done": false
+      },
+      {
+        "text": "Collect Payment",
         "done": false
       }
     ]
@@ -49,7 +53,7 @@
       "sales"
     ],
     "status": "waiting",
-    "due": "",
+    "due": "2026-04-14",
     "subtasks": [
       {
         "text": "Respond to R&S email",
