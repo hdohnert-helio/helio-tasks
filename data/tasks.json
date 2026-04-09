@@ -48,7 +48,7 @@
     "subtasks": [
       {
         "text": "Respond to R&S email",
-        "done": false
+        "done": true
       },
       {
         "text": "Sign Agreement",
