@@ -43,7 +43,7 @@
     "tags": [
       "sales"
     ],
-    "status": "waiting",
+    "status": "backlog",
     "due": "",
     "subtasks": []
   },
@@ -228,7 +228,7 @@
     "tags": [
       "compliance"
     ],
-    "status": "waiting",
+    "status": "backlog",
     "due": "",
     "subtasks": []
   },
