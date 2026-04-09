@@ -49,6 +49,10 @@
       {
         "text": "Respond to R&S email",
         "done": false
+      },
+      {
+        "text": "Sign Agreement",
+        "done": false
       }
     ]
   },
