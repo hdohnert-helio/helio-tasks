@@ -19,7 +19,7 @@
     "tags": [
       "ops"
     ],
-    "status": "upnext",
+    "status": "backlog",
     "due": "",
     "subtasks": []
   },
@@ -91,7 +91,7 @@
     "tags": [
       "finance"
     ],
-    "status": "upnext",
+    "status": "backlog",
     "due": "",
     "subtasks": []
   },
@@ -167,7 +167,7 @@
     "tags": [
       "ops"
     ],
-    "status": "upnext",
+    "status": "backlog",
     "due": "",
     "subtasks": []
   },
@@ -253,7 +253,7 @@
     "tags": [
       "finance"
     ],
-    "status": "upnext",
+    "status": "backlog",
     "due": "",
     "subtasks": []
   },
@@ -278,7 +278,7 @@
     "tags": [
       "sales"
     ],
-    "status": "upnext",
+    "status": "backlog",
     "due": "",
     "subtasks": []
   },
