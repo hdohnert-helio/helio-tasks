@@ -7,7 +7,7 @@
     "tags": [
       "ops"
     ],
-    "status": "backlog",
+    "status": "inprogress",
     "due": "",
     "subtasks": []
   },
@@ -31,9 +31,14 @@
     "tags": [
       "finance"
     ],
-    "status": "backlog",
+    "status": "waiting",
     "due": "",
-    "subtasks": []
+    "subtasks": [
+      {
+        "text": "Send Contract Addendum",
+        "done": false
+      }
+    ]
   },
   {
     "notes": "Sent email to R&S on 4/9\n",
