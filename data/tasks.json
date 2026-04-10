@@ -29,6 +29,10 @@
       {
         "text": "Create new form for The Power Grid",
         "done": false
+      },
+      {
+        "text": "Fix Zoho canvas to reflect sales rep at the top of the deal record",
+        "done": false
       }
     ]
   },
