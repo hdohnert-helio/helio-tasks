@@ -145,7 +145,12 @@
     ],
     "status": "inprogress",
     "due": "2026-04-16",
-    "subtasks": []
+    "subtasks": [
+      {
+        "text": "send in form by monday for challenge!!",
+        "done": false
+      }
+    ]
   },
   {
     "notes": "NABCEP is resending me my continuing education conference hours for upload to meet requirement",
