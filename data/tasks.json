@@ -49,7 +49,7 @@
     "subtasks": [
       {
         "text": "Send Contract Addendum",
-        "done": false
+        "done": true
       },
       {
         "text": "Collect Payment",
