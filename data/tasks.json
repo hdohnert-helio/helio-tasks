@@ -21,7 +21,12 @@
     ],
     "status": "inprogress",
     "due": "",
-    "subtasks": []
+    "subtasks": [
+      {
+        "text": "Create new form for Solar Nerds",
+        "done": false
+      }
+    ]
   },
   {
     "notes": "",
