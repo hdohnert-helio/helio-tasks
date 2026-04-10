@@ -54,6 +54,10 @@
       {
         "text": "Collect Payment",
         "done": false
+      },
+      {
+        "text": "Addendum was signed. Matthew will mail check to Helio address",
+        "done": false
       }
     ]
   },
