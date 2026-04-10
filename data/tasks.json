@@ -24,11 +24,11 @@
     "subtasks": [
       {
         "text": "Create new form for Solar Nerds",
-        "done": false
+        "done": true
       },
       {
         "text": "Create new form for The Power Grid",
-        "done": false
+        "done": true
       },
       {
         "text": "Fix Zoho canvas to reflect sales rep at the top of the deal record",
