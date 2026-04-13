@@ -132,6 +132,10 @@ body.dark .tgl::after{transform:translateX(15px);}
 .fbtn.active{color:var(--surface);border-color:transparent;}
 .fbtn.all.active{background:var(--navy);}
 body.dark .fbtn.all.active{background:var(--orange);color:var(--navy);}
+.settings-chip{display:flex;align-items:center;gap:5px;background:var(--surf3);border:1px solid var(--b2);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:500;color:var(--text);}
+.chip-del{background:none;border:none;color:var(--faint);cursor:pointer;font-size:12px;padding:0;line-height:1;transition:color .15s;}
+.chip-del:hover{color:var(--red);}
+body.dark .fbtn.all.active{background:var(--orange);color:var(--navy);}
 .fbtn.fp-Harry.active{background:#1d6fa4;border-color:#1d6fa4;color:#fff;}
 .fbtn.fp-Brian.active{background:#16a34a;border-color:#16a34a;color:#fff;}
 .fbtn.fp-Greg.active{background:#c45d00;border-color:#c45d00;color:#fff;}
@@ -295,6 +299,26 @@ body.dark .btn-s{background:var(--orange);color:var(--navy);}
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--b2);border-radius:3px;}
+.settings-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.38);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.settings-overlay.open{display:flex;}
+.settings-modal{background:var(--surface);border:1px solid var(--b2);border-radius:14px;padding:24px;width:520px;max-width:96vw;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.16);}
+.settings-title{font-family:'Inter Tight',sans-serif;font-size:17px;font-weight:700;margin-bottom:20px;}
+.settings-section{margin-bottom:20px;}
+.settings-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:10px;}
+.settings-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+.settings-chip{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;background:var(--surf3);border:1px solid var(--b2);color:var(--text);}
+.chip-del{background:none;border:none;color:var(--faint);cursor:pointer;font-size:11px;padding:0;line-height:1;transition:color .15s;}
+.chip-del:hover{color:var(--red);}
+.settings-add-row{display:flex;gap:7px;}
+.settings-input{flex:1;background:var(--bg);border:1px solid var(--b2);border-radius:7px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;padding:7px 10px;}
+.settings-input:focus{outline:none;border-color:var(--orange);}
+.settings-add-btn{background:var(--navy);border:none;border-radius:7px;color:#fff;font-size:12px;font-weight:700;padding:7px 14px;cursor:pointer;white-space:nowrap;}
+body.dark .settings-add-btn{background:var(--orange);color:var(--navy);}
+.settings-add-btn:hover{opacity:.88;}
+.sort-btn{background:none;border:1px solid var(--b1);border-radius:20px;color:var(--muted);cursor:pointer;font-size:11px;padding:4px 10px;transition:all .15s;font-family:'Inter',sans-serif;white-space:nowrap;}
+.sort-btn:hover{border-color:var(--b2);color:var(--text);}
+.sort-btn.active{background:var(--bdim);border-color:var(--bdim);color:var(--blu);}
+.mention{color:var(--blu);font-weight:600;}
 
 @media(max-width:640px){
   body{overflow:auto;}
@@ -343,12 +367,46 @@ body.dark .btn-s{background:var(--orange);color:var(--navy);}
         <div class="tgl" onclick="toggleTheme()" title="Light / Dark mode"></div>
       </div>
       <button class="hbtn pri" onclick="openAdd(null)">+ New Task</button>
+      <button class="hbtn" onclick="openSettings()">&#9881; Settings</button>
     </div>
   </div>
 
   <div class="stats" id="stats"></div>
   <div class="filterbar" id="filterbar"></div>
   <div class="board" id="board"></div>
+</div>
+
+<div class="settings-overlay" id="settings-overlay" onclick="if(event.target===this)closeSettings()">
+  <div class="settings-modal">
+    <div class="settings-title">Settings</div>
+    <div class="settings-section">
+      <div class="settings-section-title">Team Members</div>
+      <div class="settings-chips" id="people-chips"></div>
+      <div class="settings-add-row">
+        <input class="settings-input" id="new-person-input" placeholder="Add person name..." onkeydown="if(event.key==='Enter')addPerson()">
+        <button class="settings-add-btn" onclick="addPerson()">+ Add</button>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">Tags</div>
+      <div class="settings-chips" id="tag-chips"></div>
+      <div class="settings-add-row">
+        <input class="settings-input" id="new-tag-input" placeholder="Add tag..." onkeydown="if(event.key==='Enter')addTag()">
+        <button class="settings-add-btn" onclick="addTag()">+ Add</button>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">Google Chat Webhook</div>
+      <div class="settings-add-row">
+        <input class="settings-input" id="gchat-webhook-input" placeholder="https://chat.googleapis.com/...">
+        <button class="settings-add-btn" onclick="saveWebhook()">Save</button>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">Use @Name in a note to send a Google Chat notification to the team space.</div>
+    </div>
+    <div class="mfoot" style="border-top:1px solid var(--b1);padding-top:16px;margin-top:4px;">
+      <button class="btn-c" onclick="closeSettings()">Close</button>
+    </div>
+  </div>
 </div>
 
 <div class="overlay" id="modal" onclick="if(event.target===this)closeModal()">
@@ -361,11 +419,7 @@ body.dark .btn-s{background:var(--orange);color:var(--navy);}
     <div class="fgrid">
       <div class="frow" style="margin:0">
         <div class="flabel">Assigned To</div>
-        <select class="fselect" id="fp">
-          <option value="">— Unassigned —</option>
-          <option>Harry</option><option>Brian</option><option>Greg</option>
-          <option>Fred</option><option>Rob</option><option>Jenna</option>
-        </select>
+        <select class="fselect" id="fp"><option value="">— Unassigned —</option></select>
       </div>
       <div class="frow" style="margin:0">
         <div class="flabel">Column</div>
@@ -375,11 +429,7 @@ body.dark .btn-s{background:var(--orange);color:var(--navy);}
     <div class="fgrid">
       <div class="frow" style="margin:0">
         <div class="flabel">Tag</div>
-        <select class="fselect" id="ftag">
-          <option value="">— None —</option>
-          <option>urgent</option><option>finance</option><option>compliance</option>
-          <option>ops</option><option>sales</option><option>hr</option>
-        </select>
+        <select class="fselect" id="ftag"><option value="">— None —</option></select>
       </div>
       <div class="frow" style="margin:0">
         <div class="flabel">Due Date</div>
@@ -401,6 +451,9 @@ body.dark .btn-s{background:var(--orange);color:var(--navy);}
 /* ── Constants ── */
 const PASS = 'HelioSolar2026';
 const API  = 'https://helio-tasks-api.onrender.com';
+const GCHAT_DEFAULT = 'https://chat.googleapis.com/v1/spaces/AAQA12F7sXc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=Fp76pFaiX6U-yMJIHSSyYAJpqj3QGZNmS8ARCHFdK8Y';
+let customPeople = ['Harry','Brian','Greg','Fred','Rob','Jenna'];
+let customTags   = ['urgent','finance','compliance','ops','sales','hr'];
 
 const COLS = [
   {id:'urgent',     name:'Urgent / Blocked', color:'#dc2626'},
@@ -451,6 +504,7 @@ const DEF = [
 
 let tasks=JSON.parse(JSON.stringify(DEF));
 let filterPerson='', filterTag='';
+let sortByDue=false;
 let ghSha=localStorage.getItem('hs_sha')||'';
 let saveTimer=null;
 let openSubs={},openNotes={},openMenu=null,editId=null,dragId=null;
@@ -460,7 +514,7 @@ function ini(n){return !n?'?':n.length<=2?n:n.slice(0,2).toUpperCase();}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function isOD(d){return d&&d<new Date().toISOString().slice(0,10);}
-function tagCls(t){return 'tg-'+({urgent:'urgent',finance:'finance',compliance:'compliance',ops:'ops',sales:'sales',hr:'hr'}[t]||'ops');}
+function tagCls(t){const m={urgent:'urgent',finance:'finance',compliance:'compliance',ops:'ops',sales:'sales',hr:'hr'};return 'tg-'+(m[t]||'custom');}
 
 /* ── Auth ── */
 function auth(){
@@ -562,9 +616,8 @@ function openAdd(colId){
   editId=null;
   document.getElementById('mtitle').textContent='New Task';
   document.getElementById('ft').value='';
-  document.getElementById('fp').value='';
-  document.getElementById('ftag').value='';
   document.getElementById('fd').value='';
+  populateModalDropdowns();
   populateStatus(colId||'backlog');
   document.getElementById('modal').classList.add('open');
   setTimeout(()=>document.getElementById('ft').focus(),50);
@@ -573,6 +626,7 @@ function openEdit(id){
   const t=tasks.find(x=>x.id===id);if(!t)return;
   editId=id;
   document.getElementById('mtitle').textContent='Edit Task';
+  populateModalDropdowns();
   document.getElementById('ft').value=t.text;
   document.getElementById('fp').value=t.person||'';
   document.getElementById('ftag').value=t.tags[0]||'';
@@ -597,6 +651,12 @@ function saveTask(){
     tasks.push({id:uid(),person,text,tags:tag?[tag]:[],status,due,subtasks:[],notes:[]});
   }
   closeModal();render();scheduleSave();
+  // notify if person was assigned
+  const assigned=document.getElementById('fp').value;
+  if(assigned&&!editId){
+    const taskText=document.getElementById('ft').value.trim();
+    notifyAssignment(assigned,taskText);
+  }
 }
 
 /* ── Drag & Drop ── */
@@ -636,8 +696,10 @@ function addNote(id){
   const t=tasks.find(x=>x.id===id);
   if(t){
     if(!Array.isArray(t.notes)) t.notes=[];
-    t.notes.push({id:uid(),text:inp.value.trim(),ts:Date.now(),author:''});
+    const noteText=inp.value.trim();
+    t.notes.push({id:uid(),text:noteText,ts:Date.now(),author:''});
     openNotes[id]=true;
+    notifyMentions(t.text,noteText);
     render();scheduleSave();
     setTimeout(()=>{const el=document.getElementById('ni-'+id);if(el){el.value='';el.focus();}},10);
   }
@@ -694,7 +756,7 @@ function renderCard(t){
             <span class="note-time">${new Date(n.ts).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</span>
             <button class="note-del" onclick="delNote('${t.id}','${n.id}')" title="Delete note">✕</button>
           </div>
-          <div class="note-body">${esc(n.text)}</div>
+          <div class="note-body">${esc(n.text).replace(/@(\w+)/g,'<span class="mention">@$1</span>')}</div>
         </div>`).join('')}
       <div class="note-add-row">
         <textarea class="note-inp" id="ni-${t.id}" placeholder="Add a note…" rows="2"
@@ -748,17 +810,97 @@ function renderCard(t){
   </div>`;
 }
 
+/* -- Settings -- */
+function openSettings(){
+  renderSettingsChips();
+  const wh=localStorage.getItem('hs_gchat')||GCHAT_DEFAULT;
+  document.getElementById('gchat-webhook-input').value=wh;
+  document.getElementById('settings-overlay').classList.add('open');
+}
+function closeSettings(){document.getElementById('settings-overlay').classList.remove('open');}
+function renderSettingsChips(){
+  document.getElementById('people-chips').innerHTML=customPeople.map(p=>
+    '<div class="settings-chip"><span>'+p+'</span><button class="chip-del" onclick="removePerson(''+p+'')">x</button></div>'
+  ).join('');
+  document.getElementById('tag-chips').innerHTML=customTags.map(t=>
+    '<div class="settings-chip"><span>'+t+'</span><button class="chip-del" onclick="removeTag(''+t+'')">x</button></div>'
+  ).join('');
+}
+function addPerson(){
+  const inp=document.getElementById('new-person-input');
+  const v=inp.value.trim();
+  if(!v||customPeople.includes(v))return;
+  customPeople.push(v);inp.value='';
+  saveSettings();renderSettingsChips();render();
+}
+function removePerson(p){customPeople=customPeople.filter(x=>x!==p);saveSettings();renderSettingsChips();render();}
+function addTag(){
+  const inp=document.getElementById('new-tag-input');
+  const v=inp.value.trim().toLowerCase().replace(/\s+/g,'-');
+  if(!v||customTags.includes(v))return;
+  customTags.push(v);inp.value='';
+  saveSettings();renderSettingsChips();render();
+}
+function removeTag(t){customTags=customTags.filter(x=>x!==t);saveSettings();renderSettingsChips();render();}
+function saveWebhook(){
+  localStorage.setItem('hs_gchat',document.getElementById('gchat-webhook-input').value.trim());
+  closeSettings();
+}
+function saveSettings(){
+  localStorage.setItem('hs_people',JSON.stringify(customPeople));
+  localStorage.setItem('hs_tags',JSON.stringify(customTags));
+}
+function loadSettings(){
+  const p=localStorage.getItem('hs_people');
+  const t=localStorage.getItem('hs_tags');
+  if(p){try{customPeople=JSON.parse(p);}catch(e){}}
+  if(t){try{customTags=JSON.parse(t);}catch(e){}}
+}
+function populateModalDropdowns(){
+  document.getElementById('fp').innerHTML='<option value="">— Unassigned —</option>'+customPeople.map(p=>'<option>'+p+'</option>').join('');
+  document.getElementById('ftag').innerHTML='<option value="">— None —</option>'+customTags.map(t=>'<option>'+t+'</option>').join('');
+}
+async function notifyMentions(taskText,noteText){
+  const webhook=localStorage.getItem('hs_gchat')||GCHAT_DEFAULT;
+  if(!webhook)return;
+  const mentions=[...noteText.matchAll(/@(\w+)/g)].map(m=>m[1]);
+  const matched=mentions.filter(m=>customPeople.some(p=>p.toLowerCase()===m.toLowerCase()));
+  if(!matched.length)return;
+  const url=window.location.href.split('?')[0];
+  const msg='*Helio Solar Task Tracker*
+
+*'+matched.map(m=>'@'+m).join(', ')+'* you have been mentioned in a task:
+
+*Task:* '+taskText+'
+*Note:* '+noteText+'
+
+'+url;
+  try{await fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:msg})});}
+  catch(e){console.error('Chat notification failed:',e);}
+}
+async function notifyAssignment(person,taskText){
+  const webhook=localStorage.getItem('hs_gchat')||GCHAT_DEFAULT;
+  if(!webhook) return;
+  const url=window.location.href.split('?')[0];
+  const msg='*Helio Solar Task Tracker*
+
+*@'+person+'* has been assigned a new task:
+
+*'+taskText+'*
+
+'+url;
+  try{await fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:msg})});}
+  catch(e){console.error('Chat notification failed:',e);}
+}
+function toggleSort(){sortByDue=!sortByDue;render();}
+
 /* ── Filter bar ── */
 function renderFilterBar(){
-  const people=['Harry','Brian','Greg','Fred','Rob','Jenna'];
-  const tags=['urgent','finance','compliance','ops','sales','hr'];
+  const sortLbl=sortByDue?'Sort: Date ▲':'Sort: Date';
   const allBtn=`<button class="fbtn all ${!filterPerson&&!filterTag?'active':''}" onclick="setFilter('','')">All</button>`;
-  const personBtns=people.map(p=>`<button class="fbtn fp-${p} ${filterPerson===p?'active':''}" onclick="setFilter('${p}','')">
-    ${p}
-  </button>`).join('');
-  const tagBtns=tags.map(t=>`<button class="fbtn ft-${t} ${filterTag===t?'active':''}" onclick="setFilter('','${t}')">
-    ${t}
-  </button>`).join('');
+  const personBtns=customPeople.map(p=>`<button class="fbtn fp-person ${filterPerson===p?'active':''}" style="${filterPerson===p?'background:'+getPM(p).color+';border-color:'+getPM(p).color+';color:#fff':''}" onclick="setFilter('${p}','${filterTag}')">${p}</button>`).join('');
+  const tagBtns=customTags.map(t=>`<button class="fbtn ft-tag ${filterTag===t?'active':''}" onclick="setFilter('${filterPerson}','${t}')">${t}</button>`).join('');
+  const sortBtn=`<button class="fbtn ${sortByDue?'active':''}" style="${sortByDue?'background:var(--navy);color:#fff;border-color:var(--navy)':''}" onclick="toggleSort()">${sortLbl}</button>`;
   document.getElementById('filterbar').innerHTML=
     allBtn+
     '<div class="fdiv"></div>'+
@@ -766,7 +908,14 @@ function renderFilterBar(){
     personBtns+
     '<div class="fdiv"></div>'+
     '<span class="flabel-sm">Tags</span>'+
-    tagBtns;
+    tagBtns+
+    '<div class="fdiv"></div>'+
+    sortBtn;
+}
+function getPM(name){
+  const colors=['#1d6fa4','#16a34a','#c45d00','#7c3aed','#92400e','#be185d','#0d9488','#d97706'];
+  const idx=customPeople.indexOf(name);
+  return {color:colors[idx%colors.length],bg:'rgba(0,0,0,0.1)'};
 }
 function setFilter(person,tag){
   filterPerson=person;filterTag=tag;
@@ -784,10 +933,11 @@ function render(){
       t.text.toLowerCase().includes(q)||
       (t.person||'').toLowerCase().includes(q)||
       t.tags.some(tg=>tg.includes(q))||
-      (t.notes||'').toLowerCase().includes(q)
+      (Array.isArray(t.notes)?t.notes.map(n=>n.text).join(' '):(t.notes||'')).toLowerCase().includes(q)
     );
     if(filterPerson) ct=ct.filter(t=>t.person===filterPerson);
     if(filterTag) ct=ct.filter(t=>t.tags.includes(filterTag));
+    if(sortByDue) ct=ct.slice().sort((a,b)=>{if(!a.due&&!b.due)return 0;if(!a.due)return 1;if(!b.due)return -1;return a.due<b.due?-1:1;});
     ct.forEach(t=>{
       if(t.status==='completed')dn++;
       else{op++;if(t.tags.includes('urgent'))ur++;if(isOD(t.due))od++;}
@@ -834,6 +984,7 @@ setInterval(loadRemote,60000);
 /* ── Boot ── */
 async function boot(){
   loadTheme();
+  loadSettings();
   const lf=document.getElementById('lfill'), lm=document.getElementById('lmsg');
   lf.style.width='20%'; lm.textContent='Loading…';
   const cached=localStorage.getItem('hs_tasks');
@@ -858,5 +1009,42 @@ async function boot(){
 }
 boot();
 </script>
+
+<!-- Settings overlay -->
+<div class="overlay" id="settings-overlay" onclick="if(event.target===this)closeSettings()">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-title">⚙ Settings</div>
+
+    <div class="frow">
+      <div class="flabel">People</div>
+      <div id="people-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px"></div>
+      <div style="display:flex;gap:6px">
+        <input class="finput" id="new-person-input" placeholder="Add person…" onkeydown="if(event.key==='Enter')addPerson()" style="flex:1">
+        <button class="btn-s" onclick="addPerson()" style="padding:9px 14px">Add</button>
+      </div>
+    </div>
+
+    <div class="frow">
+      <div class="flabel">Tags</div>
+      <div id="tag-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px"></div>
+      <div style="display:flex;gap:6px">
+        <input class="finput" id="new-tag-input" placeholder="Add tag…" onkeydown="if(event.key==='Enter')addTag()" style="flex:1">
+        <button class="btn-s" onclick="addTag()" style="padding:9px 14px">Add</button>
+      </div>
+    </div>
+
+    <div class="frow">
+      <div class="flabel">Google Chat Webhook <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px">(for @mention & assignment alerts)</span></div>
+      <input class="finput" id="gchat-webhook-input" type="text" placeholder="https://chat.googleapis.com/…">
+      <div style="font-size:11px;color:var(--muted);margin-top:5px">Use @Name in a note to alert that person. Alerts also fire when a task is assigned.</div>
+    </div>
+
+    <div class="mfoot">
+      <button class="btn-c" onclick="closeSettings()">Cancel</button>
+      <button class="btn-s" onclick="saveWebhook()">Save Settings</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
