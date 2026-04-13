@@ -166,7 +166,7 @@ body.dark .fbtn.all.active{background:var(--orange);color:var(--navy);}
 /* ── Column ── */
 .col{
   flex-shrink:0;width:270px;display:flex;flex-direction:column;
-  max-height:calc(100vh - 54px - 37px - 42px);
+  height:calc(100vh - 54px - 37px - 42px - 16px);
   border-radius:11px;background:var(--col-bg);border:1px solid var(--b1);
   overflow:hidden;box-shadow:var(--sh);
 }
@@ -177,9 +177,11 @@ body.dark .fbtn.all.active{background:var(--orange);color:var(--navy);}
 .col-add{background:none;border:none;color:var(--faint);cursor:pointer;font-size:18px;line-height:1;padding:0 2px;transition:color .15s;}
 .col-add:hover{color:var(--at);}
 
-.cards{flex:1;overflow-y:auto;padding:7px;display:flex;flex-direction:column;gap:6px;}
-.cards::-webkit-scrollbar{width:3px;}
-.cards::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px;}
+.cards{flex:1;overflow-y:auto;padding:7px;display:flex;flex-direction:column;gap:6px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+.cards::-webkit-scrollbar{width:5px;}
+.cards::-webkit-scrollbar-track{background:var(--surf3);border-radius:3px;}
+.cards::-webkit-scrollbar-thumb{background:var(--b2);border-radius:3px;}
+.cards::-webkit-scrollbar-thumb:hover{background:var(--b3);}
 .cards.dov{background:var(--o-dim);border-radius:8px;}
 .empty{text-align:center;padding:22px 10px;color:var(--faint);font-size:12px;border:1.5px dashed var(--b2);border-radius:8px;}
 
@@ -236,9 +238,24 @@ body.dark .fbtn.all.active{background:var(--orange);color:var(--navy);}
 .sinput:focus{outline:none;border-color:var(--b3);}
 .sadd{background:none;border:1px solid var(--b2);border-radius:5px;color:var(--muted);font-size:12px;padding:4px 9px;cursor:pointer;}
 .sadd:hover{border-color:var(--b3);color:var(--text);}
-.notes-ta{width:100%;padding:7px 9px;background:var(--bg);border:1px solid var(--b2);border-radius:7px;color:var(--text);font-family:'Inter',sans-serif;font-size:12px;line-height:1.5;resize:vertical;min-height:60px;transition:border-color .15s;margin-top:3px;}
-.notes-ta:focus{outline:none;border-color:var(--orange);}
-.notes-prev{font-size:12px;color:var(--muted);line-height:1.5;margin-top:3px;white-space:pre-wrap;word-break:break-word;font-style:italic;}
+.notes-log{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
+.note-entry{background:var(--surf2);border:1px solid var(--b1);border-radius:7px;padding:7px 9px;}
+.note-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.note-author{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;}
+.note-time{font-size:10px;color:var(--faint);}
+.note-body{font-size:12px;color:var(--text);line-height:1.5;white-space:pre-wrap;word-break:break-word;}
+.note-del{background:none;border:none;color:var(--faint);cursor:pointer;font-size:11px;padding:0 2px;transition:color .15s;}
+.note-del:hover{color:var(--red);}
+.note-add-row{display:flex;gap:5px;margin-top:4px;}
+.note-inp{flex:1;background:var(--bg);border:1px solid var(--b2);border-radius:6px;color:var(--text);font-family:'Inter',sans-serif;font-size:12px;padding:5px 8px;resize:none;min-height:38px;line-height:1.4;}
+.note-inp:focus{outline:none;border-color:var(--orange);}
+.note-submit{background:var(--navy);border:none;border-radius:6px;color:#fff;font-size:11px;font-weight:700;padding:5px 10px;cursor:pointer;align-self:flex-end;transition:opacity .15s;white-space:nowrap;}
+body.dark .note-submit{background:var(--orange);color:var(--navy);}
+.note-submit:hover{opacity:.85;}
+.sdue{font-size:10px;background:transparent;border:1px solid transparent;border-radius:4px;color:var(--faint);padding:1px 3px;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif;color-scheme:auto;max-width:100px;}
+.sdue:hover{border-color:var(--b2);color:var(--muted);}
+.sdue.set{color:var(--blu);border-color:var(--bdim);}
+.sdue.od{color:var(--red);border-color:var(--rdim);}
 
 /* move menu */
 .mmenu{position:absolute;right:7px;top:30px;background:var(--surface);border:1px solid var(--b2);border-radius:10px;padding:5px;z-index:300;min-width:155px;display:none;box-shadow:0 8px 28px rgba(0,0,0,0.13);}
@@ -370,7 +387,7 @@ body.dark .btn-s{background:var(--orange);color:var(--navy);}
       </div>
     </div>
     <div class="frow">
-      <div class="flabel">Notes</div>
+      <div class="flabel">Initial Note <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional — more can be added on the card)</span></div>
       <textarea class="fta" id="fn" placeholder="Context, links, follow-up details…"></textarea>
     </div>
     <div class="mfoot">
@@ -482,7 +499,10 @@ async function loadRemote(){
     const r=await fetch(`${API}/tasks`,{headers:{'x-app-password':PASS}});
     if(!r.ok) throw new Error(r.status);
     const j=await r.json();
-    tasks=j.tasks.map(t=>({notes:'',...t}));
+    tasks=j.tasks.map(t=>({notes:'',...t,
+    notes: typeof t.notes === 'string' ? (t.notes ? [{id:uid(),text:t.notes,ts:Date.now(),author:''}] : []) : (t.notes||[]),
+    subtasks:(t.subtasks||[]).map(s=>({due:'',...s}))
+  }));
     ghSha=j.sha; localStorage.setItem('hs_sha',ghSha);
     setSync('ok','Synced'); render();
   }catch(e){setSync('err','Sync error');console.error(e);}
@@ -541,7 +561,7 @@ function populateStatus(sel){
 function openAdd(colId){
   editId=null;
   document.getElementById('mtitle').textContent='New Task';
-  ['ft','fn'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('ft').value='';
   document.getElementById('fp').value='';
   document.getElementById('ftag').value='';
   document.getElementById('fd').value='';
@@ -557,7 +577,7 @@ function openEdit(id){
   document.getElementById('fp').value=t.person||'';
   document.getElementById('ftag').value=t.tags[0]||'';
   document.getElementById('fd').value=t.due||'';
-  document.getElementById('fn').value=t.notes||'';
+
   populateStatus(t.status);
   document.getElementById('modal').classList.add('open');
   setTimeout(()=>document.getElementById('ft').focus(),50);
@@ -570,12 +590,11 @@ function saveTask(){
   const status=document.getElementById('fs').value;
   const tag=document.getElementById('ftag').value;
   const due=document.getElementById('fd').value;
-  const notes=document.getElementById('fn').value.trim();
   if(editId){
     const t=tasks.find(x=>x.id===editId);
-    if(t){t.text=text;t.person=person;t.status=status;t.tags=tag?[tag]:[];t.due=due;t.notes=notes;}
+    if(t){t.text=text;t.person=person;t.status=status;t.tags=tag?[tag]:[];t.due=due;}
   }else{
-    tasks.push({id:uid(),person,text,tags:tag?[tag]:[],status,due,subtasks:[],notes});
+    tasks.push({id:uid(),person,text,tags:tag?[tag]:[],status,due,subtasks:[],notes:[]});
   }
   closeModal();render();scheduleSave();
 }
@@ -611,13 +630,33 @@ function togMenu(id,e){e.stopPropagation();openMenu=openMenu===id?null:id;render
 function setDue(id,v){const t=tasks.find(x=>x.id===id);if(t){t.due=v;scheduleSave();}render();}
 function togSub(id){openSubs[id]=!openSubs[id];render();}
 function togNote(id){openNotes[id]=!openNotes[id];render();}
-function saveNotes(id,v){const t=tasks.find(x=>x.id===id);if(t){t.notes=v;scheduleSave();}}
+function addNote(id){
+  const inp=document.getElementById('ni-'+id);
+  if(!inp||!inp.value.trim())return;
+  const t=tasks.find(x=>x.id===id);
+  if(t){
+    if(!Array.isArray(t.notes)) t.notes=[];
+    t.notes.push({id:uid(),text:inp.value.trim(),ts:Date.now(),author:''});
+    openNotes[id]=true;
+    render();scheduleSave();
+    setTimeout(()=>{const el=document.getElementById('ni-'+id);if(el){el.value='';el.focus();}},10);
+  }
+}
+function delNote(tid,nid){
+  const t=tasks.find(x=>x.id===tid);
+  if(t&&Array.isArray(t.notes)){t.notes=t.notes.filter(n=>n.id!==nid);render();scheduleSave();}
+}
+function setSubDue(tid,si,v){
+  const t=tasks.find(x=>x.id===tid);
+  if(t&&t.subtasks[si]){t.subtasks[si].due=v;scheduleSave();}
+  render();
+}
 function togSubtask(tid,si){const t=tasks.find(x=>x.id===tid);if(t&&t.subtasks[si]){t.subtasks[si].done=!t.subtasks[si].done;render();scheduleSave();}}
 function addSubtask(id){
   const inp=document.getElementById('si-'+id);
   if(!inp||!inp.value.trim())return;
   const t=tasks.find(x=>x.id===id);
-  if(t){t.subtasks.push({text:inp.value.trim(),done:false});openSubs[id]=true;render();scheduleSave();setTimeout(()=>{const el=document.getElementById('si-'+id);if(el)el.focus();},10);}
+  if(t){t.subtasks.push({text:inp.value.trim(),done:false,due:''});openSubs[id]=true;render();scheduleSave();setTimeout(()=>{const el=document.getElementById('si-'+id);if(el)el.focus();},10);}
 }
 
 /* ── Render card ── */
@@ -628,23 +667,44 @@ function renderCard(t){
   const pct=hs?Math.round(sd/t.subtasks.length*100):0;
   const od=isOD(t.due)&&t.status!=='completed';
   const dc=!t.due?'':od?'od':'set';
-  const hn=!!(t.notes&&t.notes.trim());
-
   const subContent=openSubs[t.id]?
-    t.subtasks.map((s,i)=>`<div class="si">
-      <div class="scb ${s.done?'chk':''}" onclick="togSubtask('${t.id}',${i})"></div>
-      <span class="stxt ${s.done?'dn':''}">${esc(s.text)}</span>
-    </div>`).join('')+
+    t.subtasks.map((s,i)=>{
+      const sod=isOD(s.due);
+      const sdc=!s.due?'':sod?'od':'set';
+      return `<div class="si">
+        <div class="scb ${s.done?'chk':''}" onclick="togSubtask('${t.id}',${i})"></div>
+        <span class="stxt ${s.done?'dn':''}" style="flex:1">${esc(s.text)}</span>
+        <input type="date" class="sdue ${sdc}" value="${s.due||''}"
+          onchange="setSubDue('${t.id}',${i},this.value)" onclick="event.stopPropagation()"
+          title="${s.due||'Set due date'}">
+      </div>`;
+    }).join('')+
     `<div class="sinrow">
       <input class="sinput" id="si-${t.id}" placeholder="Add subtask…" onkeydown="if(event.key==='Enter')addSubtask('${t.id}')">
       <button class="sadd" onclick="addSubtask('${t.id}')">Add</button>
     </div>`:'';
 
-  const notesContent=openNotes[t.id]
-    ?`<textarea class="notes-ta" placeholder="Notes, links, context…"
-        onchange="saveNotes('${t.id}',this.value)"
-        onclick="event.stopPropagation()">${esc(t.notes||'')}</textarea>`
-    :hn?`<div class="notes-prev">${esc((t.notes||'').slice(0,120))}${(t.notes||'').length>120?'…':''}</div>`:'';
+  const notesList=Array.isArray(t.notes)?t.notes:[];
+  const hn=notesList.length>0;
+  const notesContent=openNotes[t.id]?`
+    <div class="notes-log">
+      ${notesList.map(n=>`
+        <div class="note-entry">
+          <div class="note-meta">
+            <span class="note-time">${new Date(n.ts).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</span>
+            <button class="note-del" onclick="delNote('${t.id}','${n.id}')" title="Delete note">✕</button>
+          </div>
+          <div class="note-body">${esc(n.text)}</div>
+        </div>`).join('')}
+      <div class="note-add-row">
+        <textarea class="note-inp" id="ni-${t.id}" placeholder="Add a note…" rows="2"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();addNote('${t.id}')}"
+          onclick="event.stopPropagation()"></textarea>
+        <button class="note-submit" onclick="addNote('${t.id}')">Post</button>
+      </div>
+    </div>`
+  :hn?`<div class="notes-prev" onclick="togNote('${t.id}')" style="cursor:pointer">${esc(notesList[notesList.length-1].text.slice(0,100))}${notesList[notesList.length-1].text.length>100?'…':''} <span style="color:var(--faint);font-size:10px">(${notesList.length})</span></div>`
+  :'';
 
   const moveOpts=COLS.filter(c=>c.id!==t.status).map(c=>
     `<div class="mopt" onclick="moveTask('${t.id}','${c.id}')">
@@ -680,7 +740,7 @@ function renderCard(t){
       </div>`:''}
       <div class="tog-row">
         <span class="tog ${hs?'has':''}" onclick="togSub('${t.id}')">${openSubs[t.id]?'▴ hide subtasks':hs?'▾ subtasks':'+ subtask'}</span>
-        <span class="tog ${hn?'has':''}" onclick="togNote('${t.id}')">${openNotes[t.id]?'▴ hide notes':hn?'▾ notes ●':'+ notes'}</span>
+        <span class="tog ${hn?'has':''}" onclick="togNote('${t.id}')">${openNotes[t.id]?'▴ hide notes':hn?`▾ notes (${notesList.length})`:'+ notes'}</span>
       </div>
       ${openSubs[t.id]?`<div class="sub-list">${subContent}</div>`:''}
       ${openNotes[t.id]||hn?notesContent:''}
@@ -777,7 +837,10 @@ async function boot(){
   const lf=document.getElementById('lfill'), lm=document.getElementById('lmsg');
   lf.style.width='20%'; lm.textContent='Loading…';
   const cached=localStorage.getItem('hs_tasks');
-  if(cached){try{tasks=JSON.parse(cached).map(t=>({notes:'',...t}));}catch(e){}}
+  if(cached){try{tasks=JSON.parse(cached).map(t=>({...t,
+    notes: typeof t.notes === 'string' ? (t.notes ? [{id:uid(),text:t.notes,ts:Date.now(),author:''}] : []) : (t.notes||[]),
+    subtasks:(t.subtasks||[]).map(s=>({due:'',...s}))
+  }));}catch(e){}}
   lf.style.width='65%';
   await new Promise(r=>setTimeout(r,280));
   lf.style.width='100%'; lm.textContent='Ready';
