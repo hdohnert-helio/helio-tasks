@@ -7,7 +7,7 @@
     "tags": [
       "ops"
     ],
-    "status": "inprogress",
+    "status": "review",
     "due": "",
     "subtasks": []
   },
@@ -160,7 +160,7 @@
     "tags": [
       "finance"
     ],
-    "status": "review",
+    "status": "inprogress",
     "due": "",
     "subtasks": []
   },
