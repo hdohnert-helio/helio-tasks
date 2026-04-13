@@ -45,9 +45,9 @@
         "done": false
       },
       {
+        "due": "2026-04-13",
         "text": "Create sales rep onboarding form",
-        "done": true,
-        "due": "2026-04-13"
+        "done": true
       }
     ]
   },
@@ -105,7 +105,7 @@
     "due": "2026-04-14",
     "subtasks": [
       {
-        "due": "",
+        "due": "2026-04-09",
         "text": "Respond to R&S email",
         "done": true
       },
