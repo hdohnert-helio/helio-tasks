@@ -30,7 +30,7 @@
     "due": "2026-04-15",
     "subtasks": [
       {
-        "due": "",
+        "due": "2026-04-10",
         "text": "Create new form for Solar Nerds",
         "done": true
       },
