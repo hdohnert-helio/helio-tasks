@@ -43,6 +43,11 @@
         "due": "",
         "text": "Fix Zoho canvas to reflect sales rep at the top of the deal record",
         "done": false
+      },
+      {
+        "text": "Create sales rep onboarding form",
+        "done": false,
+        "due": ""
       }
     ]
   },
