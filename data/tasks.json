@@ -12,7 +12,14 @@
     "subtasks": []
   },
   {
-    "notes": [],
+    "notes": [
+      {
+        "id": "mnxdwdrml8is",
+        "text": "Created new Sales Org Onboarding Form: https://forms.helio.solar/heliosolar/form/HelioSalesOrgIntake/formperma/KRP1Y2799L9qszBTfKCt84iKKzi36VMgNQXcTWIcaSw\n\nForm will create a new record in the Sales Org Module",
+        "ts": 1776096333490,
+        "author": ""
+      }
+    ],
     "id": "h2",
     "person": "Harry",
     "text": "Fix Partner Intake Process in Zoho",
