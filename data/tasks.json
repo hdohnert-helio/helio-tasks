@@ -1,6 +1,6 @@
 [
   {
-    "notes": "",
+    "notes": [],
     "id": "h1",
     "person": "Harry",
     "text": "Fix GTR lead intake process",
@@ -12,7 +12,14 @@
     "subtasks": []
   },
   {
-    "notes": "Created Zoho form for The Power Grid but cannot fully test since he has not accepted his aurora invite yet",
+    "notes": [
+      {
+        "id": "mnx8iegqucda",
+        "text": "Created Zoho form for The Power Grid but cannot fully test since he has not accepted his aurora invite yet",
+        "ts": 1776087283130,
+        "author": ""
+      }
+    ],
     "id": "h2",
     "person": "Harry",
     "text": "Fix Partner Intake Process in Zoho",
@@ -23,21 +30,31 @@
     "due": "2026-04-15",
     "subtasks": [
       {
+        "due": "",
         "text": "Create new form for Solar Nerds",
         "done": true
       },
       {
+        "due": "",
         "text": "Create new form for The Power Grid",
         "done": true
       },
       {
+        "due": "",
         "text": "Fix Zoho canvas to reflect sales rep at the top of the deal record",
         "done": false
       }
     ]
   },
   {
-    "notes": "Addendum was signed. Matthew will mail check to Helio address",
+    "notes": [
+      {
+        "id": "mnx8iegqdsa0",
+        "text": "Addendum was signed. Matthew will mail check to Helio address",
+        "ts": 1776087283130,
+        "author": ""
+      }
+    ],
     "id": "h3",
     "person": "Harry",
     "text": "Create Contract Addendum for Mazon and collect $10K",
@@ -48,21 +65,31 @@
     "due": "2026-04-17",
     "subtasks": [
       {
+        "due": "2026-04-09",
         "text": "Send Contract Addendum",
         "done": true
       },
       {
+        "due": "",
         "text": "Collect Payment",
         "done": false
       },
       {
+        "due": "",
         "text": "Addendum was signed. Matthew will mail check to Helio address",
         "done": true
       }
     ]
   },
   {
-    "notes": "Sent email to R&S on 4/9\n",
+    "notes": [
+      {
+        "id": "mnx8iegqx5ox",
+        "text": "Sent email to R&S on 4/9\n",
+        "ts": 1776087283130,
+        "author": ""
+      }
+    ],
     "id": "h4",
     "person": "Harry",
     "text": "Come to terms with Rolleri & Sheppard on go-forward",
@@ -73,21 +100,24 @@
     "due": "2026-04-14",
     "subtasks": [
       {
+        "due": "",
         "text": "Respond to R&S email",
         "done": true
       },
       {
+        "due": "",
         "text": "Sign Agreement",
         "done": false
       },
       {
+        "due": "",
         "text": "Set up training for Helio",
         "done": false
       }
     ]
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "h5",
     "person": "Harry",
     "text": "Strip down operations process in Zoho",
@@ -99,7 +129,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "h6",
     "person": "Harry",
     "text": "PURA Secretary Email — Unredacted Filed",
@@ -111,7 +141,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "b1",
     "person": "Brian",
     "text": "Complete HVAC Quoting Tool",
@@ -123,7 +153,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "b2",
     "person": "Brian",
     "text": "Updating Goodleap New Pricing & SafeHarbor",
@@ -135,7 +165,14 @@
     "subtasks": []
   },
   {
-    "notes": "Appeal call scheduled with MOSHA for Thursday 11am EST!!",
+    "notes": [
+      {
+        "id": "mnx8iegq0iwk",
+        "text": "Appeal call scheduled with MOSHA for Thursday 11am EST!!",
+        "ts": 1776087283130,
+        "author": ""
+      }
+    ],
     "id": "b3",
     "person": "Brian",
     "text": "OSHA Appeal to Fine — Call (410) 527-4449",
@@ -147,13 +184,21 @@
     "due": "2026-04-16",
     "subtasks": [
       {
+        "due": "",
         "text": "send in form by monday for challenge!!",
         "done": false
       }
     ]
   },
   {
-    "notes": "just sent in final approval packet for recertification",
+    "notes": [
+      {
+        "id": "mnx8iegrizyc",
+        "text": "just sent in final approval packet for recertification",
+        "ts": 1776087283131,
+        "author": ""
+      }
+    ],
     "id": "b4",
     "person": "Brian",
     "text": "Renew NABCEP Certification ASAP",
@@ -166,7 +211,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "b5",
     "person": "Brian",
     "text": "Google Biz Licensing & Searchability — FIX NOW",
@@ -179,7 +224,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "g1",
     "person": "Greg",
     "text": "Resolve Outstanding Invoices with Ralph",
@@ -192,7 +237,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "g2",
     "person": "Greg",
     "text": "Muller: reimbursement electric for fortress issue",
@@ -204,7 +249,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "g3",
     "person": "Greg",
     "text": "Verify ALL systems with PTO are on and producing",
@@ -216,7 +261,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "g4",
     "person": "Greg",
     "text": "New Jersey Comp for Fabio Jobs",
@@ -228,7 +273,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "f1",
     "person": "Fred",
     "text": "Resolve Outstanding Debt with Sam Karas",
@@ -241,7 +286,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "r1",
     "person": "Rob",
     "text": "Price of Vehicles vs. outstanding loan balance",
@@ -253,7 +298,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "r2",
     "person": "Rob",
     "text": "Sell paid off vehicles",
@@ -265,7 +310,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "r3",
     "person": "Rob",
     "text": "Maryland SREC Registrations (Anfinrud & 5 sites)",
@@ -277,7 +322,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "r4",
     "person": "Rob",
     "text": "Wattmonk Liability on Burned out SMA Inverters",
@@ -290,7 +335,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "r5",
     "person": "Rob",
     "text": "Get Money!",
@@ -302,7 +347,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "j1",
     "person": "Jenna",
     "text": "Daylight setup for reps, training, etc.",
@@ -315,7 +360,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "j2",
     "person": "Jenna",
     "text": "Doorknocking Comp Plan",
@@ -327,7 +372,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "j3",
     "person": "Jenna",
     "text": "Immediate Training Schedule for Brian (weekly)",
@@ -339,7 +384,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "j4",
     "person": "Jenna",
     "text": "Complete Door Knocking",
@@ -351,7 +396,7 @@
     "subtasks": []
   },
   {
-    "notes": "",
+    "notes": [],
     "id": "mnrqmjf531rc",
     "person": "Harry",
     "text": "Confirm when GTR contract expires",
