@@ -131,6 +131,7 @@ body.dark .tgl::after{transform:translateX(15px);}
 .fbtn:hover{border-color:var(--b2);color:var(--text);}
 .fbtn.active{color:var(--surface);border-color:transparent;}
 .fbtn.all.active{background:var(--navy);}
+body.dark .fbtn.fp-person.active,.fbtn.ft-tag.active{border-color:transparent;}
 body.dark .fbtn.all.active{background:var(--orange);color:var(--navy);}
 .settings-chip{display:flex;align-items:center;gap:5px;background:var(--surf3);border:1px solid var(--b2);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:500;color:var(--text);}
 .chip-del{background:none;border:none;color:var(--faint);cursor:pointer;font-size:12px;padding:0;line-height:1;transition:color .15s;}
@@ -456,13 +457,13 @@ let customPeople = ['Harry','Brian','Greg','Fred','Rob','Jenna'];
 let customTags   = ['urgent','finance','compliance','ops','sales','hr'];
 
 const COLS = [
-  {id:'urgent',     name:'Urgent / Blocked', color:'#dc2626'},
-  {id:'inprogress', name:'In Progress',       color:'#1d6fa4'},
-  {id:'review',     name:'In Review',          color:'#7c3aed'},
-  {id:'upnext',     name:'Up Next',            color:'#d97706'},
-  {id:'backlog',    name:'Backlog',            color:'#16a34a'},
-  {id:'waiting',    name:'Waiting On',         color:'#c45d00'},
-  {id:'completed',  name:'Completed',          color:'#0d9488'},
+  {id:'blocked',    name:'Blocked',      color:'#dc2626'},
+  {id:'backlog',    name:'Backlog',      color:'#16a34a'},
+  {id:'upnext',     name:'Up Next',      color:'#d97706'},
+  {id:'inprogress', name:'In Progress',  color:'#1d6fa4'},
+  {id:'review',     name:'In Review',    color:'#7c3aed'},
+  {id:'waiting',    name:'Waiting On',   color:'#c45d00'},
+  {id:'completed',  name:'Completed',    color:'#0d9488'},
 ];
 
 const PM = {
@@ -483,18 +484,18 @@ const DEF = [
   {id:'h6',person:'Harry',text:'PURA Secretary Email — Unredacted Filed',             tags:['compliance'],          status:'completed', due:'',subtasks:[],notes:''},
   {id:'b1',person:'Brian',text:'Complete HVAC Quoting Tool',                          tags:['ops'],                 status:'inprogress',due:'',subtasks:[],notes:''},
   {id:'b2',person:'Brian',text:'Updating Goodleap New Pricing & SafeHarbor',          tags:['finance'],             status:'upnext',    due:'',subtasks:[],notes:''},
-  {id:'b3',person:'Brian',text:'OSHA Appeal to Fine — Call (410) 527-4449',           tags:['compliance','urgent'], status:'urgent',    due:'',subtasks:[],notes:''},
-  {id:'b4',person:'Brian',text:'Renew NABCEP Certification ASAP',                     tags:['compliance','urgent'], status:'urgent',    due:'',subtasks:[],notes:''},
-  {id:'b5',person:'Brian',text:'Google Biz Licensing & Searchability — FIX NOW',      tags:['urgent','ops'],        status:'urgent',    due:'',subtasks:[],notes:''},
-  {id:'g1',person:'Greg', text:'Resolve Outstanding Invoices with Ralph',             tags:['finance','urgent'],    status:'urgent',    due:'',subtasks:[],notes:''},
+  {id:'b3',person:'Brian',text:'OSHA Appeal to Fine — Call (410) 527-4449',           tags:['compliance','urgent'], status:'blocked',    due:'',subtasks:[],notes:''},
+  {id:'b4',person:'Brian',text:'Renew NABCEP Certification ASAP',                     tags:['compliance','urgent'], status:'blocked',    due:'',subtasks:[],notes:''},
+  {id:'b5',person:'Brian',text:'Google Biz Licensing & Searchability — FIX NOW',      tags:['urgent','ops'],        status:'blocked',    due:'',subtasks:[],notes:''},
+  {id:'g1',person:'Greg', text:'Resolve Outstanding Invoices with Ralph',             tags:['finance','urgent'],    status:'blocked',    due:'',subtasks:[],notes:''},
   {id:'g2',person:'Greg', text:'Muller: reimbursement electric for fortress issue',   tags:['finance'],             status:'inprogress',due:'',subtasks:[],notes:''},
   {id:'g3',person:'Greg', text:'Verify ALL systems with PTO are on and producing',   tags:['ops'],                 status:'upnext',    due:'',subtasks:[],notes:''},
   {id:'g4',person:'Greg', text:'New Jersey Comp for Fabio Jobs',                      tags:['hr'],                  status:'backlog',   due:'',subtasks:[],notes:''},
-  {id:'f1',person:'Fred', text:'Resolve Outstanding Debt with Sam Karas',             tags:['finance','urgent'],    status:'urgent',    due:'',subtasks:[],notes:''},
+  {id:'f1',person:'Fred', text:'Resolve Outstanding Debt with Sam Karas',             tags:['finance','urgent'],    status:'blocked',    due:'',subtasks:[],notes:''},
   {id:'r1',person:'Rob',  text:'Price of Vehicles vs. outstanding loan balance',      tags:['finance'],             status:'inprogress',due:'',subtasks:[],notes:''},
   {id:'r2',person:'Rob',  text:'Sell paid off vehicles',                              tags:['finance'],             status:'backlog',   due:'',subtasks:[],notes:''},
   {id:'r3',person:'Rob',  text:'Maryland SREC Registrations (Anfinrud & 5 sites)',   tags:['compliance'],          status:'waiting',   due:'',subtasks:[],notes:''},
-  {id:'r4',person:'Rob',  text:'Wattmonk Liability on Burned out SMA Inverters',     tags:['ops','urgent'],        status:'urgent',    due:'',subtasks:[],notes:''},
+  {id:'r4',person:'Rob',  text:'Wattmonk Liability on Burned out SMA Inverters',     tags:['ops','urgent'],        status:'blocked',    due:'',subtasks:[],notes:''},
   {id:'r5',person:'Rob',  text:'Get Money!',                                          tags:['finance'],             status:'upnext',    due:'',subtasks:[],notes:''},
   {id:'j1',person:'Jenna',text:'Daylight setup for reps, training, etc.',             tags:['hr','ops'],            status:'inprogress',due:'',subtasks:[],notes:''},
   {id:'j2',person:'Jenna',text:'Doorknocking Comp Plan',                              tags:['sales'],               status:'upnext',    due:'',subtasks:[],notes:''},
