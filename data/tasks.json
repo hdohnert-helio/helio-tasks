@@ -40,7 +40,7 @@
         "done": true
       },
       {
-        "due": "",
+        "due": "2026-04-17",
         "text": "Fix Zoho canvas to reflect sales rep at the top of the deal record",
         "done": false
       },
