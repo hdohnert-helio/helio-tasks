@@ -819,12 +819,12 @@ function openSettings(){
 }
 function closeSettings(){document.getElementById('settings-overlay').classList.remove('open');}
 function renderSettingsChips(){
-  document.getElementById('people-chips').innerHTML=customPeople.map(p=>
-    '<div class="settings-chip"><span>'+p+'</span><button class="chip-del" onclick="removePerson(''+p+'')">x</button></div>'
-  ).join('');
-  document.getElementById('tag-chips').innerHTML=customTags.map(t=>
-    '<div class="settings-chip"><span>'+t+'</span><button class="chip-del" onclick="removeTag(''+t+'')">x</button></div>'
-  ).join('');
+  document.getElementById('people-chips').innerHTML=customPeople.map(function(p){
+    return '<div class="settings-chip"><span>'+p+'</span><button class="chip-del" onclick="removePerson(this.dataset.n)" data-n="'+p+'">&#x2715;</button></div>';
+  }).join('');
+  document.getElementById('tag-chips').innerHTML=customTags.map(function(t){
+    return '<div class="settings-chip"><span>'+t+'</span><button class="chip-del" onclick="removeTag(this.dataset.n)" data-n="'+t+'">&#x2715;</button></div>';
+  }).join('');
 }
 function addPerson(){
   const inp=document.getElementById('new-person-input');
@@ -867,14 +867,8 @@ async function notifyMentions(taskText,noteText){
   const matched=mentions.filter(m=>customPeople.some(p=>p.toLowerCase()===m.toLowerCase()));
   if(!matched.length)return;
   const url=window.location.href.split('?')[0];
-  const msg='*Helio Solar Task Tracker*
-
-*'+matched.map(m=>'@'+m).join(', ')+'* you have been mentioned in a task:
-
-*Task:* '+taskText+'
-*Note:* '+noteText+'
-
-'+url;
+  const nl='\n';
+  const msg='*Helio Solar Task Tracker*'+nl+nl+'*'+matched.map(m=>'@'+m).join(', ')+'* you have been mentioned in a task:'+nl+nl+'*Task:* '+taskText+nl+'*Note:* '+noteText+nl+nl+url;
   try{await fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:msg})});}
   catch(e){console.error('Chat notification failed:',e);}
 }
@@ -882,13 +876,8 @@ async function notifyAssignment(person,taskText){
   const webhook=localStorage.getItem('hs_gchat')||GCHAT_DEFAULT;
   if(!webhook) return;
   const url=window.location.href.split('?')[0];
-  const msg='*Helio Solar Task Tracker*
-
-*@'+person+'* has been assigned a new task:
-
-*'+taskText+'*
-
-'+url;
+  const nl='\n';
+  const msg='*Helio Solar Task Tracker*'+nl+nl+'*@'+person+'* has been assigned a new task:'+nl+nl+'*'+taskText+'*'+nl+nl+url;
   try{await fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:msg})});}
   catch(e){console.error('Chat notification failed:',e);}
 }
