@@ -352,7 +352,14 @@
     "subtasks": []
   },
   {
-    "notes": [],
+    "notes": [
+      {
+        "id": "mnyphaw5s744",
+        "text": "4/13 Emailed our Daylight rep to get some of their training materials.",
+        "ts": 1776176251493,
+        "author": ""
+      }
+    ],
     "id": "j1",
     "person": "Jenna",
     "text": "Daylight setup for reps, training, etc.",
