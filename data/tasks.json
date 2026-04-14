@@ -415,7 +415,14 @@
     "subtasks": []
   },
   {
-    "notes": [],
+    "notes": [
+      {
+        "id": "mnyq6jfk5zyx",
+        "text": "I thought this was me so I found out. \"Hi Jenna,\n\n\n\nYour renewal date is December 22, 2026. If you have any changes, I just need to know 30 days prior to the renewal date. I always send a reminder, also.\"",
+        "ts": 1776177428960,
+        "author": ""
+      }
+    ],
     "id": "mnrqmjf531rc",
     "person": "Harry",
     "text": "Confirm when GTR contract expires",
