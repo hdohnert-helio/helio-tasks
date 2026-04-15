@@ -142,10 +142,10 @@
     "due": "2026-04-17",
     "subtasks": [
       {
+        "due": "2026-04-15",
+        "person": "Harry",
         "text": "Activate new blueprint and deactivate old",
-        "done": false,
-        "due": "",
-        "person": "Harry"
+        "done": false
       }
     ],
     "mentions": []
