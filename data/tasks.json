@@ -148,9 +148,10 @@
         "done": false
       },
       {
+        "due": "",
+        "person": "",
         "text": "Get all projects in correct stage",
-        "done": false,
-        "due": ""
+        "done": false
       }
     ],
     "mentions": []
