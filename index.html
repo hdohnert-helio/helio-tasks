@@ -222,6 +222,16 @@ body.dark .fbtn.all.active{background:var(--orange);color:var(--navy);}
 
 /* extras */
 .extras{margin-top:8px;padding-top:8px;border-top:1px solid var(--b1);display:flex;flex-direction:column;gap:7px;}
+.card-mentions{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:7px;padding-top:7px;border-top:1px solid var(--b1);}
+.mchip{display:flex;align-items:center;gap:4px;background:var(--surf3);border:1px solid var(--b2);border-radius:20px;padding:2px 7px 2px 4px;font-size:11px;font-weight:500;color:var(--muted);}
+.mchip-del{background:none;border:none;color:var(--faint);cursor:pointer;font-size:10px;padding:0;line-height:1;margin-left:2px;}
+.mchip-del:hover{color:var(--red);}
+.add-mention-btn{font-size:11px;font-weight:700;background:var(--surf3);border:1px solid var(--b2);border-radius:20px;color:var(--muted);padding:2px 9px;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.add-mention-btn:hover{background:var(--navy);color:#fff;border-color:var(--navy);}
+body.dark .add-mention-btn:hover{background:var(--orange);color:var(--navy);border-color:var(--orange);}
+.sub-sel{font-size:10px;background:transparent;border:1px solid transparent;border-radius:4px;color:var(--faint);padding:1px 3px;cursor:pointer;font-family:'Inter',sans-serif;color-scheme:auto;max-width:72px;transition:all .15s;}
+.sub-sel:hover{border-color:var(--b2);color:var(--muted);}
+.sub-sel:focus{outline:none;border-color:var(--b2);}
 .sub-prog{display:flex;align-items:center;gap:7px;}
 .sub-track{flex:1;height:3px;background:var(--b2);border-radius:2px;overflow:hidden;}
 .sub-fill{height:100%;background:var(--grn);border-radius:2px;transition:width .3s;}
@@ -252,9 +262,24 @@ body.dark .fbtn.all.active{background:var(--orange);color:var(--navy);}
 .note-del{background:none;border:none;color:var(--faint);cursor:pointer;font-size:11px;padding:0 2px;transition:color .15s;}
 .note-del:hover{color:var(--red);}
 .note-add-row{display:flex;gap:5px;margin-top:4px;}
-.note-inp{flex:1;background:var(--bg);border:1px solid var(--b2);border-radius:6px;color:var(--text);font-family:'Inter',sans-serif;font-size:12px;padding:5px 8px;resize:none;min-height:38px;line-height:1.4;}
+.note-inp{width:100%;background:var(--bg);border:1px solid var(--b2);border-radius:6px;color:var(--text);font-family:'Inter',sans-serif;font-size:12px;padding:5px 8px;resize:none;min-height:38px;line-height:1.4;}
+.note-ta-wrap{flex:1;position:relative;}
+.note-mention-hint{position:absolute;bottom:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1px solid var(--b2);border-radius:9px;padding:4px;z-index:500;box-shadow:0 4px 16px rgba(0,0,0,0.15);}
+body.dark .note-mention-hint{box-shadow:0 4px 16px rgba(0,0,0,0.4);}
+.hint-opt:hover{background:var(--surf3);}
 .note-inp:focus{outline:none;border-color:var(--orange);}
 .note-submit{background:var(--navy);border:none;border-radius:6px;color:#fff;font-size:11px;font-weight:700;padding:5px 10px;cursor:pointer;align-self:flex-end;transition:opacity .15s;white-space:nowrap;}
+body.dark .note-submit{background:var(--orange);color:var(--navy);}
+.mention-btn{position:absolute;bottom:6px;right:6px;background:var(--surf3);border:1px solid var(--b2);border-radius:5px;color:var(--muted);font-size:12px;font-weight:700;padding:2px 7px;cursor:pointer;transition:all .15s;line-height:1.4;}
+.mention-btn:hover{background:var(--navy);color:#fff;border-color:var(--navy);}
+body.dark .mention-btn:hover{background:var(--orange);color:var(--navy);border-color:var(--orange);}
+.mention-picker{position:absolute;bottom:32px;right:0;background:var(--surface);border:1px solid var(--b2);border-radius:9px;padding:4px;z-index:400;min-width:130px;box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+body.dark .mention-picker{box-shadow:0 8px 24px rgba(0,0,0,0.5);}
+.mention-opt{padding:6px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--muted);transition:background .1s,color .1s;}
+.mention-opt:hover{background:var(--surf3);color:var(--text);}
+.portal-opt{padding:7px 10px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);transition:background .1s;}
+.portal-opt:hover{background:var(--surf3);}
+.mention-opt:hover{background:var(--surf3);color:var(--text);}
 body.dark .note-submit{background:var(--orange);color:var(--navy);}
 .note-submit:hover{opacity:.85;}
 .sdue{font-size:10px;background:transparent;border:1px solid transparent;border-radius:4px;color:var(--faint);padding:1px 3px;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif;color-scheme:auto;max-width:100px;}
@@ -509,6 +534,8 @@ let sortByDue=false;
 let ghSha=localStorage.getItem('hs_sha')||'';
 let saveTimer=null;
 let openSubs={},openNotes={},openMenu=null,editId=null,dragId=null;
+let noteDrafts={};
+let mentionPickerOpen=null;
 
 /* ── Helpers ── */
 function ini(n){return !n?'?':n.length<=2?n:n.slice(0,2).toUpperCase();}
@@ -554,9 +581,10 @@ async function loadRemote(){
     const r=await fetch(`${API}/tasks`,{headers:{'x-app-password':PASS}});
     if(!r.ok) throw new Error(r.status);
     const j=await r.json();
-    tasks=j.tasks.map(t=>({notes:'',...t,
+    tasks=j.tasks.map(t=>({...t,
+    mentions:t.mentions||[],
     notes: typeof t.notes === 'string' ? (t.notes ? [{id:uid(),text:t.notes,ts:Date.now(),author:''}] : []) : (t.notes||[]),
-    subtasks:(t.subtasks||[]).map(s=>({due:'',...s}))
+    subtasks:(t.subtasks||[]).map(s=>({due:'',person:'',...s}))
   }));
     ghSha=j.sha; localStorage.setItem('hs_sha',ghSha);
     setSync('ok','Synced'); render();
@@ -649,7 +677,7 @@ function saveTask(){
     const t=tasks.find(x=>x.id===editId);
     if(t){t.text=text;t.person=person;t.status=status;t.tags=tag?[tag]:[];t.due=due;}
   }else{
-    tasks.push({id:uid(),person,text,tags:tag?[tag]:[],status,due,subtasks:[],notes:[]});
+    tasks.push({id:uid(),person,text,tags:tag?[tag]:[],status,due,subtasks:[],mentions:[],notes:[]});
   }
   closeModal();render();scheduleSave();
   // notify if person was assigned
@@ -701,6 +729,7 @@ function addNote(id){
     t.notes.push({id:uid(),text:noteText,ts:Date.now(),author:''});
     openNotes[id]=true;
     notifyMentions(t.text,noteText);
+    delete noteDrafts[id];
     render();scheduleSave();
     setTimeout(()=>{const el=document.getElementById('ni-'+id);if(el){el.value='';el.focus();}},10);
   }
@@ -734,9 +763,14 @@ function renderCard(t){
     t.subtasks.map((s,i)=>{
       const sod=isOD(s.due);
       const sdc=!s.due?'':sod?'od':'set';
+      const sp=s.person&&PM[s.person];
+      const spHtml=sp?`<div class="avatar" style="width:16px;height:16px;font-size:7px;flex-shrink:0;background:${sp.bg};color:${sp.color}">${ini(s.person)}</div>`:'';
+      const selOpts='<option value="">—</option>'+customPeople.map(p=>`<option value="${p}" ${s.person===p?'selected':''}>${p}</option>`).join('');
       return `<div class="si">
         <div class="scb ${s.done?'chk':''}" onclick="togSubtask('${t.id}',${i})"></div>
         <span class="stxt ${s.done?'dn':''}" style="flex:1">${esc(s.text)}</span>
+        ${spHtml}
+        <select class="sub-sel" onchange="setSubPerson('${t.id}',${i},this.value)" onclick="event.stopPropagation()">${selOpts}</select>
         <input type="date" class="sdue ${sdc}" value="${s.due||''}"
           onchange="setSubDue('${t.id}',${i},this.value)" onclick="event.stopPropagation()"
           title="${s.due||'Set due date'}">
@@ -760,9 +794,19 @@ function renderCard(t){
           <div class="note-body">${esc(n.text).replace(/@(\w+)/g,'<span class="mention">@$1</span>')}</div>
         </div>`).join('')}
       <div class="note-add-row">
-        <textarea class="note-inp" id="ni-${t.id}" placeholder="Add a note…" rows="2"
-          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();addNote('${t.id}')}"
-          onclick="event.stopPropagation()"></textarea>
+        <div style="flex:1;position:relative">
+          <div class="note-ta-wrap" id="ntw-${t.id}">
+            <textarea class="note-inp" id="ni-${t.id}" placeholder="Add a note… type @Name to tag"
+              rows="2"
+              onkeydown="noteKeydown(event,'${t.id}')"
+              oninput="saveDraft('${t.id}',this.value);checkMentionTrigger('${t.id}',this)"
+              onclick="event.stopPropagation()"
+              onfocus="openNotes['${t.id}']=true"
+            ></textarea>
+            <div class="note-mention-hint" id="nmh-${t.id}" style="display:none"></div>
+          </div>
+          <button class="mention-btn" onclick="toggleNoteMentionPicker('${t.id}',event)" title="Tag someone">@</button>
+        </div>
         <button class="note-submit" onclick="addNote('${t.id}')">Post</button>
       </div>
     </div>`
@@ -796,6 +840,7 @@ function renderCard(t){
       <input type="date" class="cdue ${dc}" value="${t.due||''}"
         onchange="setDue('${t.id}',this.value)" onclick="event.stopPropagation()">
     </div>
+    <div class="card-mentions" id="cm-${t.id}"></div>
     <div class="extras">
       ${hs?`<div class="sub-prog">
         <div class="sub-track"><div class="sub-fill" style="width:${pct}%"></div></div>
@@ -882,6 +927,147 @@ async function notifyAssignment(person,taskText){
   try{await fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:msg})});}
   catch(e){console.error('Chat notification failed:',e);}
 }
+function saveDraft(id,val){noteDrafts[id]=val;}
+function toggleMentionPicker(id,e){
+  e.stopPropagation();
+  mentionPickerOpen=mentionPickerOpen===id?null:id;
+  const el=document.getElementById('mp-'+id);
+  if(el) el.style.display=mentionPickerOpen===id?'block':'none';
+}
+function insertMention(id,name){
+  const ta=document.getElementById('ni-'+id);
+  if(!ta) return;
+  const val=ta.value;
+  const pos=ta.selectionStart;
+  // Replace the partial @xxx with the full @Name
+  const before=val.slice(0,pos);
+  const atIdx=before.lastIndexOf('@');
+  const newBefore=atIdx>=0?before.slice(0,atIdx)+'@'+name+' ':before+'@'+name+' ';
+  ta.value=newBefore+val.slice(pos);
+  noteDrafts[id]=ta.value;
+  ta.focus();
+  ta.selectionStart=ta.selectionEnd=newBefore.length;
+  hideNoteHint(id);
+  // Close picker portal
+  const portal=document.getElementById('mention-portal');
+  if(portal){portal.style.display='none';portal.dataset.tid='';}
+  mentionPickerOpen=null;
+}
+function noteKeydown(e,id){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();addNote(id);}
+  if(e.key==='Escape') hideNoteHint(id);
+}
+function checkMentionTrigger(id,ta){
+  const val=ta.value;
+  const pos=ta.selectionStart;
+  const before=val.slice(0,pos);
+  const atIdx=before.lastIndexOf('@');
+  const hint=document.getElementById('nmh-'+id);
+  if(!hint) return;
+  if(atIdx>=0&&atIdx===before.length-1||(atIdx>=0&&!before.slice(atIdx+1).includes(' '))){
+    const partial=before.slice(atIdx+1).toLowerCase();
+    const matches=customPeople.filter(p=>p.toLowerCase().startsWith(partial));
+    if(matches.length){
+      hint.innerHTML=matches.map(p=>{
+        const mp=PM[p]||{color:'#888',bg:'rgba(128,128,128,0.13)'};
+        return '<div class="hint-opt" data-id="'+id+'" data-name="'+p+'" style="display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500">'
+          +'<div class="avatar" style="width:18px;height:18px;font-size:8px;flex-shrink:0;background:'+mp.bg+';color:'+mp.color+'">'+ini(p)+'</div>'
+          +'<span style="color:var(--text)">'+p+'</span></div>';
+      }).join('');
+      hint.style.display='block';
+      hint.querySelectorAll('.hint-opt').forEach(function(opt){
+        opt.onmousedown=function(e){e.preventDefault();insertMention(opt.dataset.id,opt.dataset.name);};
+      });
+      return;
+    }
+  }
+  hideNoteHint(id);
+}
+function hideNoteHint(id){
+  const hint=document.getElementById('nmh-'+id);
+  if(hint) hint.style.display='none';
+}
+function toggleNoteMentionPicker(id,e){
+  e.stopPropagation();
+  const ta=document.getElementById('ni-'+id);
+  if(!ta) return;
+  // Insert @ at cursor and trigger autocomplete
+  const pos=ta.selectionStart;
+  const val=ta.value;
+  ta.value=val.slice(0,pos)+'@'+val.slice(pos);
+  ta.selectionStart=ta.selectionEnd=pos+1;
+  noteDrafts[id]=ta.value;
+  ta.focus();
+  checkMentionTrigger(id,ta);
+}
+function setSubPerson(tid,si,v){
+  const t=tasks.find(x=>x.id===tid);
+  if(!t||!t.subtasks[si]) return;
+  const prev=t.subtasks[si].person;
+  t.subtasks[si].person=v;
+  if(v&&v!==prev){
+    const nl='\n';
+    const webhook=localStorage.getItem('hs_gchat')||GCHAT_DEFAULT;
+    if(webhook){
+      const url=window.location.href.split('?')[0];
+      const msg='*Helio Solar Task Tracker*'+nl+nl+'*@'+v+'* has been assigned a subtask:'+nl+nl+'*Task:* '+t.text+nl+'*Subtask:* '+t.subtasks[si].text+nl+nl+url;
+      fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:msg})}).catch(e=>console.error(e));
+    }
+  }
+  scheduleSave(); render();
+}
+function addMention(taskId,person){
+  const t=tasks.find(x=>x.id===taskId);
+  if(!t) return;
+  if(!Array.isArray(t.mentions)) t.mentions=[];
+  if(t.mentions.includes(person)) return;
+  t.mentions.push(person);
+  const nl='\n';
+  const webhook=localStorage.getItem('hs_gchat')||GCHAT_DEFAULT;
+  if(webhook){
+    const url=window.location.href.split('?')[0];
+    const msg='*Helio Solar Task Tracker*'+nl+nl+'*@'+person+'* has been tagged on a task:'+nl+nl+'*'+t.text+'*'+nl+nl+url;
+    fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:msg})}).catch(e=>console.error(e));
+  }
+  scheduleSave(); render();
+}
+function removeMention(taskId,person){
+  const t=tasks.find(x=>x.id===taskId);
+  if(t&&Array.isArray(t.mentions)){t.mentions=t.mentions.filter(m=>m!==person);scheduleSave();render();}
+}
+function togMentionDrop(id,e){
+  e.stopPropagation();
+  const portal=document.getElementById('mention-portal');
+  const btn=e.currentTarget||e.target;
+  const rect=btn.getBoundingClientRect();
+  // If already showing for this id, close it
+  if(portal.dataset.tid===id&&portal.style.display==='block'){
+    portal.style.display='none'; portal.dataset.tid=''; return;
+  }
+  // Build menu content
+  const t=tasks.find(x=>x.id===id);
+  const mentions=t?t.mentions||[]:[];
+  const avail=customPeople.filter(p=>!mentions.includes(p));
+  if(!avail.length){portal.innerHTML='<div style="padding:8px 12px;font-size:12px;color:var(--muted)">Everyone tagged</div>';}
+  else{portal.innerHTML=avail.map(p=>{
+    const mp=PM[p]||{color:'#888',bg:'rgba(128,128,128,0.13)'};
+    return '<div class="portal-opt" data-tid="'+id+'" data-person="'+p+'" style="display:flex;align-items:center;gap:8px">'
+      +'<div class="avatar" style="width:20px;height:20px;font-size:9px;flex-shrink:0;background:'+mp.bg+';color:'+mp.color+'">'+ini(p)+'</div>'
+      +'<span>'+p+'</span></div>';
+  }).join('');}
+  portal.dataset.tid=id;
+  // Position below button, constrain to viewport
+  let top=rect.bottom+6; let left=rect.left;
+  portal.style.display='block';
+  const pw=portal.offsetWidth||160;
+  if(left+pw>window.innerWidth-8) left=window.innerWidth-pw-8;
+  if(top+200>window.innerHeight) top=rect.top-6-Math.min(200,portal.offsetHeight);
+  portal.style.top=top+'px'; portal.style.left=left+'px';
+  // bind clicks
+  portal.querySelectorAll('.portal-opt').forEach(function(opt){
+    opt.onclick=function(e){e.stopPropagation();addMention(opt.dataset.tid,opt.dataset.person);portal.style.display='none';portal.dataset.tid='';};
+  });
+}
 function toggleSort(){sortByDue=!sortByDue;render();}
 
 /* ── Filter bar ── */
@@ -951,6 +1137,49 @@ function render(){
     ['Open',op,''],['Urgent',ur,ur?'red':''],['Overdue',od,od?'red':''],['Done',dn,dn?'grn':''],['Total',tasks.length,''],
   ].map(([l,v,c])=>`<div class="stat"><div class="sv ${c}">${v}</div><div class="sl">${l}</div></div>`).join('');
   renderFilterBar();
+  // Restore any in-progress note drafts
+  Object.keys(noteDrafts).forEach(id=>{
+    const el=document.getElementById('ni-'+id);
+    if(el&&noteDrafts[id]) el.value=noteDrafts[id];
+  });
+  // Render mention chips (safe, no template literal nesting)
+  renderAllMentions();
+}
+function renderAllMentions(){
+  tasks.forEach(t=>{
+    const el=document.getElementById('cm-'+t.id);
+    if(!el) return;
+    const mentions=t.mentions||[];
+    let html='';
+    mentions.forEach(function(m){
+      const mp=PM[m]||{color:'#888',bg:'rgba(128,128,128,0.13)'};
+      html+='<div class="mchip">';
+      html+='<div class="avatar" style="width:16px;height:16px;font-size:7px;flex-shrink:0;background:'+mp.bg+';color:'+mp.color+'">'+ini(m)+'</div>';
+      html+='<span>'+m+'</span>';
+      html+='<button class="mchip-del" data-tid="'+t.id+'" data-person="'+m+'">&#x2715;</button>';
+      html+='</div>';
+    });
+    // @ Tag button
+    const avail=customPeople.filter(function(p){return !mentions.includes(p);});
+    html+='<div style="position:relative;display:inline-block">';
+    html+='<button class="add-mention-btn" data-tid="'+t.id+'">@ Tag</button>';
+    html+='<div class="mention-picker" id="mdrop-'+t.id+'" style="display:none">';
+    avail.forEach(function(p){
+      html+='<div class="mention-opt" data-tid="'+t.id+'" data-person="'+p+'">'+p+'</div>';
+    });
+    html+='</div></div>';
+    el.innerHTML=html;
+    // Bind events
+    el.querySelectorAll('.mchip-del').forEach(function(btn){
+      btn.addEventListener('click',function(e){e.stopPropagation();removeMention(btn.dataset.tid,btn.dataset.person);});
+    });
+    el.querySelectorAll('.add-mention-btn').forEach(function(btn){
+      btn.addEventListener('click',function(e){e.stopPropagation();togMentionDrop(btn.dataset.tid,e);});
+    });
+    el.querySelectorAll('.mention-opt').forEach(function(opt){
+      opt.addEventListener('click',function(e){e.stopPropagation();addMention(opt.dataset.tid,opt.dataset.person);});
+    });
+  });
 }
 
 /* ── Horizontal scroll with mouse wheel ── */
@@ -966,7 +1195,16 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 /* ── Close menu on outside click ── */
-document.addEventListener('click',()=>{if(openMenu){openMenu=null;render();}});
+document.addEventListener('click',()=>{
+  if(openMenu){openMenu=null;render();}
+  if(mentionPickerOpen){
+    const el=document.getElementById('mp-'+mentionPickerOpen);
+    if(el) el.style.display='none';
+    mentionPickerOpen=null;
+  }
+  const portal=document.getElementById('mention-portal');
+  if(portal){portal.style.display='none';portal.dataset.tid='';}
+});
 
 /* ── Poll every 60s ── */
 setInterval(loadRemote,60000);
@@ -1036,5 +1274,6 @@ boot();
   </div>
 </div>
 
+<div id="mention-portal" style="position:fixed;z-index:9999;background:var(--surface);border:1px solid var(--b2);border-radius:10px;padding:5px;min-width:150px;box-shadow:0 8px 28px rgba(0,0,0,0.18);display:none" onclick="event.stopPropagation()"></div>
 </body>
 </html>
