@@ -458,6 +458,7 @@
     "subtasks": []
   },
   {
+    "notes": [],
     "id": "mo01cssszn45",
     "person": "Brian",
     "text": "Quote for a Panel Removal & Reinstall Job",
@@ -466,7 +467,6 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": [],
-    "notes": []
+    "subtasks": []
   }
 ]
