@@ -482,7 +482,9 @@
     "status": "review",
     "due": "2026-04-13",
     "subtasks": [],
-    "mentions": []
+    "mentions": [
+      "Jenna"
+    ]
   },
   {
     "notes": [],
