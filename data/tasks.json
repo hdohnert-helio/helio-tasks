@@ -475,9 +475,21 @@
     "subtasks": []
   },
   {
+    "notes": [],
     "id": "mo03sutp696o",
     "person": "Jenna",
     "text": "Get Pricing-Master Agreement  from Team Sunshine",
+    "tags": [
+      "ops"
+    ],
+    "status": "backlog",
+    "due": "",
+    "subtasks": []
+  },
+  {
+    "id": "mo03tosamw8v",
+    "person": "Jenna",
+    "text": "Get Pricing-Master Agreement  from EMT Solar",
     "tags": [
       "ops"
     ],
