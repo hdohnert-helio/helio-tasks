@@ -572,5 +572,18 @@
     "subtasks": [],
     "mentions": [],
     "notes": []
+  },
+  {
+    "id": "mo05vfw3v71m",
+    "person": "Rob",
+    "text": "ecopier solutions: remove managed app from system",
+    "tags": [
+      "ops"
+    ],
+    "status": "backlog",
+    "due": "2026-04-17",
+    "subtasks": [],
+    "mentions": [],
+    "notes": []
   }
 ]
