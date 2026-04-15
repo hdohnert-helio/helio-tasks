@@ -145,7 +145,7 @@
         "due": "2026-04-15",
         "person": "Harry",
         "text": "Activate new blueprint and deactivate old",
-        "done": false
+        "done": true
       },
       {
         "due": "2026-04-15",
