@@ -9,7 +9,8 @@
     ],
     "status": "review",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -24,25 +25,30 @@
     "subtasks": [
       {
         "due": "2026-04-10",
+        "person": "",
         "text": "Create new form for Solar Nerds",
         "done": true
       },
       {
         "due": "2026-04-10",
+        "person": "",
         "text": "Create new form for The Power Grid",
         "done": true
       },
       {
         "due": "2026-04-17",
+        "person": "",
         "text": "Fix Zoho canvas to reflect sales rep at the top of the deal record",
         "done": false
       },
       {
         "due": "2026-04-13",
+        "person": "",
         "text": "Create sales rep onboarding form",
         "done": true
       }
-    ]
+    ],
+    "mentions": []
   },
   {
     "notes": [
@@ -64,20 +70,24 @@
     "subtasks": [
       {
         "due": "2026-04-09",
+        "person": "",
         "text": "Send Contract Addendum",
         "done": true
       },
       {
         "due": "2026-04-17",
+        "person": "",
         "text": "Collect Payment",
         "done": false
       },
       {
         "due": "2026-04-10",
+        "person": "",
         "text": "Addendum was signed. Matthew will mail check to Helio address",
         "done": true
       }
-    ]
+    ],
+    "mentions": []
   },
   {
     "notes": [
@@ -99,20 +109,24 @@
     "subtasks": [
       {
         "due": "2026-04-09",
+        "person": "",
         "text": "Respond to R&S email",
         "done": true
       },
       {
         "due": "2026-04-10",
+        "person": "",
         "text": "Sign Agreement",
         "done": true
       },
       {
         "due": "2026-04-24",
+        "person": "",
         "text": "Set up training for Helio",
         "done": false
       }
-    ]
+    ],
+    "mentions": []
   },
   {
     "notes": [],
@@ -124,7 +138,8 @@
     ],
     "status": "upnext",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -136,7 +151,8 @@
     ],
     "status": "completed",
     "due": "2026-03-27",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -148,7 +164,8 @@
     ],
     "status": "inprogress",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -160,7 +177,8 @@
     ],
     "status": "inprogress",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [
@@ -183,10 +201,12 @@
     "subtasks": [
       {
         "due": "",
+        "person": "",
         "text": "send in form by monday for challenge!!",
         "done": false
       }
-    ]
+    ],
+    "mentions": []
   },
   {
     "notes": [
@@ -206,7 +226,8 @@
     ],
     "status": "completed",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -219,7 +240,8 @@
     ],
     "status": "completed",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -232,7 +254,8 @@
     ],
     "status": "urgent",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -244,7 +267,8 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -256,7 +280,8 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -268,7 +293,8 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -281,7 +307,8 @@
     ],
     "status": "urgent",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -293,7 +320,8 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -305,7 +333,8 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -317,7 +346,8 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -330,7 +360,8 @@
     ],
     "status": "urgent",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -342,7 +373,8 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [
@@ -362,7 +394,8 @@
     ],
     "status": "inprogress",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [
@@ -381,7 +414,8 @@
     ],
     "status": "inprogress",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -393,7 +427,8 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -405,7 +440,8 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [
@@ -413,6 +449,12 @@
         "id": "mnyq6jfk5zyx",
         "text": "I thought this was me so I found out. \"Hi Jenna,\n\n\n\nYour renewal date is December 22, 2026. If you have any changes, I just need to know 30 days prior to the renewal date. I always send a reminder, also.\"",
         "ts": 1776177428960,
+        "author": ""
+      },
+      {
+        "id": "mo04242eimau",
+        "text": "@Brian - Contract expires on 12/22/2026. We should probably let them know now that we dont plan on renewing so we dont get charged again",
+        "ts": 1776261203222,
         "author": ""
       }
     ],
@@ -424,7 +466,8 @@
     ],
     "status": "inprogress",
     "due": "2026-04-13",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -436,7 +479,8 @@
     ],
     "status": "backlog",
     "due": "2026-04-15",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -448,7 +492,8 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -460,7 +505,8 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -472,7 +518,8 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "notes": [],
@@ -484,7 +531,8 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": []
+    "subtasks": [],
+    "mentions": []
   },
   {
     "id": "mo03tosamw8v",
@@ -496,6 +544,7 @@
     "status": "backlog",
     "due": "",
     "subtasks": [],
-    "notes": []
+    "notes": [],
+    "mentions": []
   }
 ]
