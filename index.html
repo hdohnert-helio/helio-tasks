@@ -408,8 +408,9 @@ body.dark .settings-add-btn{background:var(--orange);color:var(--navy);}
     <div class="settings-section">
       <div class="settings-section-title">Team Members</div>
       <div class="settings-chips" id="people-chips"></div>
-      <div class="settings-add-row">
-        <input class="settings-input" id="new-person-input" placeholder="Add person name..." onkeydown="if(event.key==='Enter')addPerson()">
+      <div class="settings-add-row" style="flex-wrap:wrap;gap:6px">
+        <input class="settings-input" id="new-person-input" placeholder="Name" style="flex:1;min-width:100px" onkeydown="if(event.key==='Enter')document.getElementById('new-person-email').focus()">
+        <input class="settings-input" id="new-person-email" placeholder="email@helio.solar" style="flex:2;min-width:160px" onkeydown="if(event.key==='Enter')addPerson()">
         <button class="settings-add-btn" onclick="addPerson()">+ Add</button>
       </div>
     </div>
@@ -478,7 +479,14 @@ body.dark .settings-add-btn{background:var(--orange);color:var(--navy);}
 const PASS = 'HelioSolar2026';
 const API  = 'https://helio-tasks-api.onrender.com';
 const GCHAT_DEFAULT = 'https://chat.googleapis.com/v1/spaces/AAQA12F7sXc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=Fp76pFaiX6U-yMJIHSSyYAJpqj3QGZNmS8ARCHFdK8Y';
-let customPeople = ['Harry','Brian','Greg','Fred','Rob','Jenna'];
+let customPeople = [
+  {name:'Harry', email:'hdohnert@helio.solar'},
+  {name:'Brian', email:'Brian@helio.solar'},
+  {name:'Greg',  email:'Greg@helio.solar'},
+  {name:'Fred',  email:'fstevens@helio.solar'},
+  {name:'Rob',   email:'rgoncalves@helio.solar'},
+  {name:'Jenna', email:'jstockwell@helio.solar'},
+];
 let customTags   = ['urgent','finance','compliance','ops','sales','hr'];
 
 const COLS = [
@@ -539,6 +547,9 @@ let mentionPickerOpen=null;
 
 /* ── Helpers ── */
 function ini(n){return !n?'?':n.length<=2?n:n.slice(0,2).toUpperCase();}
+function getPerson(name){return customPeople.find(p=>p.name===name)||{name:name,email:''};}
+function getEmail(name){const p=getPerson(name);return p.email||'';}
+function personNames(){return customPeople.map(p=>p.name);}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function isOD(d){return d&&d<new Date().toISOString().slice(0,10);}
@@ -765,7 +776,7 @@ function renderCard(t){
       const sdc=!s.due?'':sod?'od':'set';
       const sp=s.person&&PM[s.person];
       const spHtml=sp?`<div class="avatar" style="width:16px;height:16px;font-size:7px;flex-shrink:0;background:${sp.bg};color:${sp.color}">${ini(s.person)}</div>`:'';
-      const selOpts='<option value="">—</option>'+customPeople.map(p=>`<option value="${p}" ${s.person===p?'selected':''}>${p}</option>`).join('');
+      const selOpts='<option value="">—</option>'+customPeople.map(p=>`<option value="${p.name}" ${s.person===p.name?'selected':''}>${p.name}</option>`).join('');
       return `<div class="si">
         <div class="scb ${s.done?'chk':''}" onclick="togSubtask('${t.id}',${i})"></div>
         <span class="stxt ${s.done?'dn':''}" style="flex:1">${esc(s.text)}</span>
@@ -866,20 +877,30 @@ function openSettings(){
 function closeSettings(){document.getElementById('settings-overlay').classList.remove('open');}
 function renderSettingsChips(){
   document.getElementById('people-chips').innerHTML=customPeople.map(function(p){
-    return '<div class="settings-chip"><span>'+p+'</span><button class="chip-del" onclick="removePerson(this.dataset.n)" data-n="'+p+'">&#x2715;</button></div>';
+    const mp=PM[p.name]||{color:'#1d6fa4',bg:'rgba(29,111,164,0.13)'};
+    return '<div class="settings-chip">'
+      +'<div class="avatar" style="width:22px;height:22px;font-size:9px;flex-shrink:0;background:'+mp.bg+';color:'+mp.color+'">'+ini(p.name)+'</div>'
+      +'<div style="display:flex;flex-direction:column;gap:1px">'
+      +'<span style="font-weight:600;font-size:12px">'+p.name+'</span>'
+      +(p.email?'<span style="font-size:10px;color:var(--muted)">'+p.email+'</span>':'<span style="font-size:10px;color:var(--faint)">no email</span>')
+      +'</div>'
+      +'<button class="chip-del" onclick="removePerson(this.dataset.n)" data-n="'+p.name+'">&#x2715;</button></div>';
   }).join('');
   document.getElementById('tag-chips').innerHTML=customTags.map(function(t){
     return '<div class="settings-chip"><span>'+t+'</span><button class="chip-del" onclick="removeTag(this.dataset.n)" data-n="'+t+'">&#x2715;</button></div>';
   }).join('');
 }
 function addPerson(){
-  const inp=document.getElementById('new-person-input');
-  const v=inp.value.trim();
-  if(!v||customPeople.includes(v))return;
-  customPeople.push(v);inp.value='';
+  const nameInp=document.getElementById('new-person-input');
+  const emailInp=document.getElementById('new-person-email');
+  const name=nameInp.value.trim();
+  const email=emailInp.value.trim();
+  if(!name||customPeople.some(p=>p.name===name))return;
+  customPeople.push({name,email});
+  nameInp.value='';emailInp.value='';
   saveSettings();renderSettingsChips();render();
 }
-function removePerson(p){customPeople=customPeople.filter(x=>x!==p);saveSettings();renderSettingsChips();render();}
+function removePerson(name){customPeople=customPeople.filter(x=>x.name!==name);saveSettings();renderSettingsChips();render();}
 function addTag(){
   const inp=document.getElementById('new-tag-input');
   const v=inp.value.trim().toLowerCase().replace(/\s+/g,'-');
@@ -899,22 +920,27 @@ function saveSettings(){
 function loadSettings(){
   const p=localStorage.getItem('hs_people');
   const t=localStorage.getItem('hs_tags');
-  if(p){try{customPeople=JSON.parse(p);}catch(e){}}
+  if(p){try{
+    const parsed=JSON.parse(p);
+    // Handle legacy format (array of strings)
+    customPeople=parsed.map(x=>typeof x==='string'?{name:x,email:''}:x);
+  }catch(e){}}
   if(t){try{customTags=JSON.parse(t);}catch(e){}}
 }
 function populateModalDropdowns(){
-  document.getElementById('fp').innerHTML='<option value="">— Unassigned —</option>'+customPeople.map(p=>'<option>'+p+'</option>').join('');
+  document.getElementById('fp').innerHTML='<option value="">— Unassigned —</option>'+customPeople.map(p=>'<option>'+p.name+'</option>').join('');
   document.getElementById('ftag').innerHTML='<option value="">— None —</option>'+customTags.map(t=>'<option>'+t+'</option>').join('');
 }
 async function notifyMentions(taskText,noteText){
   const webhook=localStorage.getItem('hs_gchat')||GCHAT_DEFAULT;
   if(!webhook)return;
   const mentions=[...noteText.matchAll(/@(\w+)/g)].map(m=>m[1]);
-  const matched=mentions.filter(m=>customPeople.some(p=>p.toLowerCase()===m.toLowerCase()));
+  const matched=mentions.filter(m=>customPeople.some(p=>p.name.toLowerCase()===m.toLowerCase()));
   if(!matched.length)return;
   const url=window.location.href.split('?')[0];
   const nl='\n';
-  const msg='*Helio Solar Task Tracker*'+nl+nl+'*'+matched.map(m=>'@'+m).join(', ')+'* you have been mentioned in a task:'+nl+nl+'*Task:* '+taskText+nl+'*Note:* '+noteText+nl+nl+url;
+  const names=matched.join(', ');
+  const msg='*Helio Solar Task Tracker*'+nl+'*You were mentioned in a task*'+nl+nl+'*To:* '+names+nl+'*Task:* '+taskText+nl+'*Note:* '+noteText+nl+nl+'Link: '+url;
   try{await fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:msg})});}
   catch(e){console.error('Chat notification failed:',e);}
 }
@@ -923,7 +949,7 @@ async function notifyAssignment(person,taskText){
   if(!webhook) return;
   const url=window.location.href.split('?')[0];
   const nl='\n';
-  const msg='*Helio Solar Task Tracker*'+nl+nl+'*@'+person+'* has been assigned a new task:'+nl+nl+'*'+taskText+'*'+nl+nl+url;
+  const msg='*Helio Solar Task Tracker*'+nl+'*New Task Assignment*'+nl+nl+'*To:* '+person+nl+'*Task:* '+taskText+nl+nl+'Link: '+url;
   try{await fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:msg})});}
   catch(e){console.error('Chat notification failed:',e);}
 }
@@ -966,13 +992,13 @@ function checkMentionTrigger(id,ta){
   if(!hint) return;
   if(atIdx>=0&&atIdx===before.length-1||(atIdx>=0&&!before.slice(atIdx+1).includes(' '))){
     const partial=before.slice(atIdx+1).toLowerCase();
-    const matches=customPeople.filter(p=>p.toLowerCase().startsWith(partial));
+    const matches=customPeople.filter(p=>p.name.toLowerCase().startsWith(partial));
     if(matches.length){
       hint.innerHTML=matches.map(p=>{
-        const mp=PM[p]||{color:'#888',bg:'rgba(128,128,128,0.13)'};
-        return '<div class="hint-opt" data-id="'+id+'" data-name="'+p+'" style="display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500">'
-          +'<div class="avatar" style="width:18px;height:18px;font-size:8px;flex-shrink:0;background:'+mp.bg+';color:'+mp.color+'">'+ini(p)+'</div>'
-          +'<span style="color:var(--text)">'+p+'</span></div>';
+        const mp=PM[p.name]||{color:'#888',bg:'rgba(128,128,128,0.13)'};
+        return '<div class="hint-opt" data-id="'+id+'" data-name="'+p.name+'" style="display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500">'
+          +'<div class="avatar" style="width:18px;height:18px;font-size:8px;flex-shrink:0;background:'+mp.bg+';color:'+mp.color+'">'+ini(p.name)+'</div>'
+          +'<span style="color:var(--text)">'+p.name+'</span></div>';
       }).join('');
       hint.style.display='block';
       hint.querySelectorAll('.hint-opt').forEach(function(opt){
@@ -1010,7 +1036,7 @@ function setSubPerson(tid,si,v){
     const webhook=localStorage.getItem('hs_gchat')||GCHAT_DEFAULT;
     if(webhook){
       const url=window.location.href.split('?')[0];
-      const msg='*Helio Solar Task Tracker*'+nl+nl+'*@'+v+'* has been assigned a subtask:'+nl+nl+'*Task:* '+t.text+nl+'*Subtask:* '+t.subtasks[si].text+nl+nl+url;
+      const msg='*Helio Solar Task Tracker*'+nl+'*New Subtask Assignment*'+nl+nl+'*To:* '+v+nl+'*Task:* '+t.text+nl+'*Subtask:* '+t.subtasks[si].text+nl+nl+'Link: '+url;
       fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:msg})}).catch(e=>console.error(e));
     }
   }
@@ -1026,7 +1052,7 @@ function addMention(taskId,person){
   const webhook=localStorage.getItem('hs_gchat')||GCHAT_DEFAULT;
   if(webhook){
     const url=window.location.href.split('?')[0];
-    const msg='*Helio Solar Task Tracker*'+nl+nl+'*@'+person+'* has been tagged on a task:'+nl+nl+'*'+t.text+'*'+nl+nl+url;
+    const msg='*Helio Solar Task Tracker*'+nl+'*You have been tagged on a task*'+nl+nl+'*To:* '+person+nl+'*Task:* '+t.text+nl+nl+'Link: '+url;
     fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:msg})}).catch(e=>console.error(e));
   }
   scheduleSave(); render();
@@ -1050,10 +1076,10 @@ function togMentionDrop(id,e){
   const avail=customPeople.filter(p=>!mentions.includes(p));
   if(!avail.length){portal.innerHTML='<div style="padding:8px 12px;font-size:12px;color:var(--muted)">Everyone tagged</div>';}
   else{portal.innerHTML=avail.map(p=>{
-    const mp=PM[p]||{color:'#888',bg:'rgba(128,128,128,0.13)'};
-    return '<div class="portal-opt" data-tid="'+id+'" data-person="'+p+'" style="display:flex;align-items:center;gap:8px">'
-      +'<div class="avatar" style="width:20px;height:20px;font-size:9px;flex-shrink:0;background:'+mp.bg+';color:'+mp.color+'">'+ini(p)+'</div>'
-      +'<span>'+p+'</span></div>';
+    const mp=PM[p.name]||{color:'#888',bg:'rgba(128,128,128,0.13)'};
+    return '<div class="portal-opt" data-tid="'+id+'" data-person="'+p.name+'" style="display:flex;align-items:center;gap:8px">'
+      +'<div class="avatar" style="width:20px;height:20px;font-size:9px;flex-shrink:0;background:'+mp.bg+';color:'+mp.color+'">'+ini(p.name)+'</div>'
+      +'<span>'+p.name+'</span></div>';
   }).join('');}
   portal.dataset.tid=id;
   // Position below button, constrain to viewport
@@ -1074,7 +1100,7 @@ function toggleSort(){sortByDue=!sortByDue;render();}
 function renderFilterBar(){
   const sortLbl=sortByDue?'Sort: Date ▲':'Sort: Date';
   const allBtn=`<button class="fbtn all ${!filterPerson&&!filterTag?'active':''}" onclick="setFilter('','')">All</button>`;
-  const personBtns=customPeople.map(p=>`<button class="fbtn fp-person ${filterPerson===p?'active':''}" style="${filterPerson===p?'background:'+getPM(p).color+';border-color:'+getPM(p).color+';color:#fff':''}" onclick="setFilter('${p}','${filterTag}')">${p}</button>`).join('');
+  const personBtns=customPeople.map(p=>`<button class="fbtn fp-person ${filterPerson===p.name?'active':''}" style="${filterPerson===p.name?'background:'+getPM(p.name).color+';border-color:'+getPM(p.name).color+';color:#fff':''}" onclick="setFilter('${p.name}','${filterTag}')">${p.name}</button>`).join('');
   const tagBtns=customTags.map(t=>`<button class="fbtn ft-tag ${filterTag===t?'active':''}" onclick="setFilter('${filterPerson}','${t}')">${t}</button>`).join('');
   const sortBtn=`<button class="fbtn ${sortByDue?'active':''}" style="${sortByDue?'background:var(--navy);color:#fff;border-color:var(--navy)':''}" onclick="toggleSort()">${sortLbl}</button>`;
   document.getElementById('filterbar').innerHTML=
@@ -1153,19 +1179,21 @@ function renderAllMentions(){
     let html='';
     mentions.forEach(function(m){
       const mp=PM[m]||{color:'#888',bg:'rgba(128,128,128,0.13)'};
+      const personObj=customPeople.find(function(p){return p.name===m;})||{};
       html+='<div class="mchip">';
       html+='<div class="avatar" style="width:16px;height:16px;font-size:7px;flex-shrink:0;background:'+mp.bg+';color:'+mp.color+'">'+ini(m)+'</div>';
       html+='<span>'+m+'</span>';
+      if(personObj.email) html+='<span style="font-size:9px;color:var(--faint)">'+personObj.email+'</span>';
       html+='<button class="mchip-del" data-tid="'+t.id+'" data-person="'+m+'">&#x2715;</button>';
       html+='</div>';
     });
     // @ Tag button
-    const avail=customPeople.filter(function(p){return !mentions.includes(p);});
+    const avail=customPeople.filter(function(p){return !mentions.includes(p.name);});
     html+='<div style="position:relative;display:inline-block">';
     html+='<button class="add-mention-btn" data-tid="'+t.id+'">@ Tag</button>';
     html+='<div class="mention-picker" id="mdrop-'+t.id+'" style="display:none">';
     avail.forEach(function(p){
-      html+='<div class="mention-opt" data-tid="'+t.id+'" data-person="'+p+'">'+p+'</div>';
+      html+='<div class="mention-opt" data-tid="'+t.id+'" data-person="'+p.name+'">'+p.name+'</div>';
     });
     html+='</div></div>';
     el.innerHTML=html;
