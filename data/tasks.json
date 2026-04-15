@@ -599,6 +599,13 @@
     "due": "2026-04-16",
     "subtasks": [],
     "mentions": [],
-    "notes": []
+    "notes": [
+      {
+        "id": "mo0egh62p709",
+        "text": "@Jenna lets work on this together.",
+        "ts": 1776278669546,
+        "author": ""
+      }
+    ]
   }
 ]
