@@ -146,6 +146,11 @@
         "person": "Harry",
         "text": "Activate new blueprint and deactivate old",
         "done": false
+      },
+      {
+        "text": "Get all projects in correct stage",
+        "done": false,
+        "due": ""
       }
     ],
     "mentions": []
