@@ -470,6 +470,7 @@
     "subtasks": []
   },
   {
+    "notes": [],
     "id": "mo01uf51k7wk",
     "person": "Jenna",
     "text": "Cancel Babio",
@@ -478,7 +479,6 @@
     ],
     "status": "backlog",
     "due": "",
-    "subtasks": [],
-    "notes": []
+    "subtasks": []
   }
 ]
