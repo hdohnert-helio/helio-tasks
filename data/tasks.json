@@ -131,7 +131,14 @@
     "mentions": []
   },
   {
-    "notes": [],
+    "notes": [
+      {
+        "id": "mo0gc1aerpfx",
+        "text": "@Brian The new Blueprint is now active. David and I also reviewed every project in the Installs module and updated each to the correct stage.\n\nOutstanding items: David still needs to review two projects to confirm they are in the correct stage, and he will also go through all projects in the Energized bucket to determine whether they can be moved into Project Closeout.\n\nWe’re in a much better place. We currently have a total of 24 active projects that require regular follow-up going forward. This count excludes any projects in the Cancelled, Energized, Project Closeout, On-Hold stages, as well as any test projects.\n\nI’m going to leave the task open for now so I can go through the Blueprint and fine-tune it further.",
+        "ts": 1776281821574,
+        "author": ""
+      }
+    ],
     "id": "h5",
     "person": "Harry",
     "text": "Strip down operations process in Zoho",
