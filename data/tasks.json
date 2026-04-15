@@ -587,5 +587,18 @@
     "subtasks": [],
     "mentions": [],
     "notes": []
+  },
+  {
+    "id": "mo0eg5oz6g2p",
+    "person": "Brian",
+    "text": "Google Ads Update",
+    "tags": [
+      "sales"
+    ],
+    "status": "backlog",
+    "due": "2026-04-16",
+    "subtasks": [],
+    "mentions": [],
+    "notes": []
   }
 ]
