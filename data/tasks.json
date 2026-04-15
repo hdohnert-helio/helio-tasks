@@ -473,5 +473,17 @@
     "status": "backlog",
     "due": "",
     "subtasks": []
+  },
+  {
+    "id": "mo03sutp696o",
+    "person": "Jenna",
+    "text": "Get Pricing-Master Agreement  from Team Sunshine",
+    "tags": [
+      "ops"
+    ],
+    "status": "backlog",
+    "due": "",
+    "subtasks": [],
+    "notes": []
   }
 ]
