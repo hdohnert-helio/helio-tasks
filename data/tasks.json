@@ -140,7 +140,13 @@
     ],
     "status": "inprogress",
     "due": "2026-04-17",
-    "subtasks": [],
+    "subtasks": [
+      {
+        "text": "Activate new blueprint and deactivate old",
+        "done": false,
+        "due": ""
+      }
+    ],
     "mentions": []
   },
   {
