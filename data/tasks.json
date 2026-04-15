@@ -144,7 +144,8 @@
       {
         "text": "Activate new blueprint and deactivate old",
         "done": false,
-        "due": ""
+        "due": "",
+        "person": "Harry"
       }
     ],
     "mentions": []
