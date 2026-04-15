@@ -434,6 +434,7 @@
     "subtasks": []
   },
   {
+    "notes": [],
     "id": "mnyzts0smi3j",
     "person": "Harry",
     "text": "BGE Level 2 App Signing (David F)",
@@ -442,6 +443,17 @@
     ],
     "status": "backlog",
     "due": "2026-04-15",
+    "subtasks": []
+  },
+  {
+    "id": "mo019se2m0ic",
+    "person": "Brian",
+    "text": "Change Tesla Inverter Pricing in Aurora (it went up)",
+    "tags": [
+      "ops"
+    ],
+    "status": "backlog",
+    "due": "",
     "subtasks": [],
     "notes": []
   }
