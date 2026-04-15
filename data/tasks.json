@@ -446,11 +446,23 @@
     "subtasks": []
   },
   {
+    "notes": [],
     "id": "mo019se2m0ic",
     "person": "Brian",
     "text": "Change Tesla Inverter Pricing in Aurora (it went up)",
     "tags": [
       "ops"
+    ],
+    "status": "backlog",
+    "due": "",
+    "subtasks": []
+  },
+  {
+    "id": "mo01cssszn45",
+    "person": "Brian",
+    "text": "Quote for a Panel Removal & Reinstall Job",
+    "tags": [
+      "sales"
     ],
     "status": "backlog",
     "due": "",
