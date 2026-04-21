@@ -641,5 +641,18 @@
         "author": ""
       }
     ]
+  },
+  {
+    "id": "mo91mn7h7mmk",
+    "person": "Harry",
+    "text": "Submit Lozza to ESS Final Approval",
+    "tags": [
+      "finance"
+    ],
+    "status": "inprogress",
+    "due": "2026-04-22",
+    "subtasks": [],
+    "mentions": [],
+    "notes": []
   }
 ]
