@@ -668,6 +668,11 @@
         "person": "",
         "text": "Update workflow to pull from sold design into opportunity record",
         "done": false
+      },
+      {
+        "text": "Look at netting and no inverters needed on a project",
+        "done": false,
+        "due": ""
       }
     ],
     "mentions": [],
