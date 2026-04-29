@@ -662,7 +662,13 @@
     "tags": [],
     "status": "inprogress",
     "due": "2026-05-01",
-    "subtasks": [],
+    "subtasks": [
+      {
+        "text": "Update workflow to pull from sold design into opportunity record",
+        "done": false,
+        "due": ""
+      }
+    ],
     "mentions": [],
     "notes": []
   }
