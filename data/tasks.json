@@ -670,7 +670,13 @@
         "done": false
       },
       {
+        "due": "",
+        "person": "",
         "text": "Look at netting and no inverters needed on a project",
+        "done": false
+      },
+      {
+        "text": "Pull bill and contract from opportunity to install module using a workflow on create with a deluge function",
         "done": false,
         "due": ""
       }
