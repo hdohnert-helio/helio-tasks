@@ -664,12 +664,20 @@
     "due": "2026-05-01",
     "subtasks": [
       {
+        "due": "",
+        "person": "",
         "text": "Update workflow to pull from sold design into opportunity record",
-        "done": false,
-        "due": ""
+        "done": false
       }
     ],
     "mentions": [],
-    "notes": []
+    "notes": [
+      {
+        "id": "mokh7myia1j6",
+        "text": "Syncing of design is done through deluge (button). Syncing of product information is done though workflow (designs module) - Sold design data to opportunity",
+        "ts": 1777492619514,
+        "author": ""
+      }
+    ]
   }
 ]
