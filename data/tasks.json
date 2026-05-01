@@ -678,5 +678,18 @@
     "subtasks": [],
     "mentions": [],
     "notes": []
+  },
+  {
+    "id": "mon7izbvtvv7",
+    "person": "Brian",
+    "text": "New Commercial Lead Needs Proposal",
+    "tags": [
+      "urgent"
+    ],
+    "status": "backlog",
+    "due": "2026-05-04",
+    "subtasks": [],
+    "mentions": [],
+    "notes": []
   }
 ]
