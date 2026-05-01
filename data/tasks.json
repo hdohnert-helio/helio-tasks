@@ -676,9 +676,10 @@
         "done": false
       },
       {
+        "due": "",
+        "person": "",
         "text": "Pull bill and contract from opportunity to install module using a workflow on create with a deluge function",
-        "done": false,
-        "due": ""
+        "done": false
       }
     ],
     "mentions": [],
@@ -690,5 +691,18 @@
         "author": ""
       }
     ]
+  },
+  {
+    "id": "mon79g7mkxh0",
+    "person": "Brian",
+    "text": "2 New Generac Leads from Powerplay",
+    "tags": [
+      "sales"
+    ],
+    "status": "backlog",
+    "due": "2026-05-01",
+    "subtasks": [],
+    "mentions": [],
+    "notes": []
   }
 ]
