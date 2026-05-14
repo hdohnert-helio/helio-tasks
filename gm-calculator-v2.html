@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helio Solar — GM Redline Calculator</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f5f5f3;
+    color: #1a1a18;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+  .page { max-width: 900px; margin: 0 auto; }
+  header { margin-bottom: 2rem; }
+  header h1 { font-size: 22px; font-weight: 500; color: #1a1a18; }
+  header p { font-size: 14px; color: #5f5e5a; margin-top: 4px; }
+  .card {
+    background: #fff;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .card h2 { font-size: 12px; font-weight: 500; color: #888780; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+  .control-group { display: flex; flex-direction: column; gap: 8px; }
+  .control-group label { font-size: 13px; color: #5f5e5a; }
+  .control-group .val { font-size: 20px; font-weight: 500; color: #1a1a18; }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: #d3d1c7;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #1a1a18;
+    cursor: pointer;
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #1a1a18;
+    cursor: pointer;
+    border: none;
+  }
+  .range-labels { display: flex; justify-content: space-between; font-size: 11px; color: #888780; margin-top: 2px; }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .metric { background: #f5f5f3; border-radius: 8px; padding: 1rem; }
+  .metric .mlabel { font-size: 12px; color: #888780; margin-bottom: 6px; line-height: 1.4; }
+  .metric .mval { font-size: 22px; font-weight: 500; }
+  .metric.accent { background: #1a1a18; }
+  .metric.accent .mlabel { color: #888780; }
+  .metric.accent .mval { color: #fff; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 8px 12px; font-size: 11px; font-weight: 500; color: #888780; border-bottom: 0.5px solid rgba(0,0,0,0.10); white-space: nowrap; text-transform: uppercase; letter-spacing: 0.03em; }
+  td { padding: 11px 12px; border-bottom: 0.5px solid rgba(0,0,0,0.07); }
+  tr:last-child td { border-bottom: none; }
+  tr.highlight { background: #f5f5f3; }
+  tr.highlight td { font-weight: 500; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 6px; }
+  .badge-green { background: #eaf3de; color: #3b6d11; }
+  .badge-amber { background: #faeeda; color: #854f0b; }
+  .badge-red { background: #fcebeb; color: #a32d2d; }
+  .footnote { font-size: 12px; color: #888780; margin-top: 1rem; line-height: 1.7; border-top: 0.5px solid rgba(0,0,0,0.07); padding-top: 1rem; }
+  .star { color: #888780; font-size: 11px; }
+  .divider { border: none; border-top: 0.5px solid rgba(0,0,0,0.08); margin: 1.25rem 0; }
+  .cogs-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 8px; font-size: 13px; color: #5f5e5a; }
+  .chip { background: #f5f5f3; border-radius: 6px; padding: 4px 10px; font-size: 12px; color: #5f5e5a; }
+  .chip span { font-weight: 500; color: #1a1a18; }
+  @media (max-width: 640px) {
+    th:nth-child(3), td:nth-child(3),
+    th:nth-child(4), td:nth-child(4) { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Helio Solar — GM Redline Calculator</h1>
+    <p>What we need per watt above COGS to cover overhead and hit our profit targets</p>
+  </header>
+
+  <div class="card">
+    <h2>Cost inputs</h2>
+    <div class="controls">
+      <div class="control-group">
+        <label>Equipment cost ($/W)</label>
+        <div class="val" id="equip-out">$1.08/W</div>
+        <input type="range" id="equip" min="0.60" max="1.60" step="0.01" value="1.08">
+        <div class="range-labels"><span>$0.60</span><span>$1.60</span></div>
+      </div>
+      <div class="control-group">
+        <label>Labor cost ($/W)</label>
+        <div class="val" id="labor-out">$0.32/W</div>
+        <input type="range" id="labor" min="0.10" max="0.80" step="0.01" value="0.32">
+        <div class="range-labels"><span>$0.10</span><span>$0.80</span></div>
+      </div>
+      <div class="control-group">
+        <label>Monthly overhead ($)</label>
+        <div class="val" id="overhead-out">$50,000</div>
+        <input type="range" id="overhead" min="30000" max="100000" step="1000" value="50000">
+        <div class="range-labels"><span>$30K</span><span>$100K</span></div>
+      </div>
+      <div class="control-group">
+        <label>Target adder above COGS ($/W)</label>
+        <div class="val" id="adder-out">$0.75/W</div>
+        <input type="range" id="adder" min="0.10" max="2.00" step="0.01" value="0.75">
+        <div class="range-labels"><span>$0.10</span><span>$2.00</span></div>
+      </div>
+    </div>
+    <hr class="divider">
+    <div class="cogs-row">
+      Total COGS/W: <strong id="cogs-total">—</strong>
+      <div class="chip">Equipment <span id="chip-equip">—</span></div>
+      <div class="chip">Labor <span id="chip-labor">—</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>At 300 kW / month</h2>
+    <div class="metrics">
+      <div class="metric">
+        <div class="mlabel">Total COGS/W</div>
+        <div class="mval" id="m-cogs">—</div>
+      </div>
+      <div class="metric">
+        <div class="mlabel">Overhead burden/W</div>
+        <div class="mval" id="m-oh">—</div>
+      </div>
+      <div class="metric">
+        <div class="mlabel">Your adder covers overhead?</div>
+        <div class="mval" id="m-covers">—</div>
+      </div>
+      <div class="metric">
+        <div class="mlabel">Redline price/W</div>
+        <div class="mval" id="m-redline">—</div>
+      </div>
+      <div class="metric">
+        <div class="mlabel">Monthly GM $</div>
+        <div class="mval" id="m-gmDollar">—</div>
+      </div>
+      <div class="metric accent">
+        <div class="mlabel">GM % at redline</div>
+        <div class="mval" id="m-gmpct">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Scenario table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>kW / mo</th>
+          <th>COGS/W</th>
+          <th>Overhead/W</th>
+          <th>OH covered?</th>
+          <th>Redline $/W</th>
+          <th>GM $</th>
+          <th>GM %</th>
+          <th>Zone</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <p class="footnote">
+      <strong>Redline $/W</strong> = COGS + your target adder. This is the floor you hand to sales — nothing goes below it.<br>
+      <strong>GM $</strong> = adder × monthly kW × 1,000 — total gross margin dollars at that volume.<br>
+      <strong>GM %</strong> = (Redline − COGS) ÷ Redline — margin as a percent of revenue.<br>
+      <strong>OH covered?</strong> shows whether your adder is enough to cover fixed overhead at that volume. Red means you need more kW or a higher adder.<br>
+      Zone: <strong>Comfortable</strong> &lt; $2.80/W &nbsp;|&nbsp; <strong>Achievable</strong> $2.80–$3.40/W &nbsp;|&nbsp; <strong>Tight</strong> &gt; $3.40/W
+    </p>
+  </div>
+</div>
+
+<script>
+const kwScenarios = [100, 150, 200, 250, 300, 350, 400, 500];
+const REF_KW = 300;
+
+function fmtW(n) { return '$' + n.toFixed(2) + '/W'; }
+function fmtPct(n) { return (n * 100).toFixed(1) + '%'; }
+function fmtDollar(n) { return '$' + Math.round(n).toLocaleString(); }
+
+function getZone(price) {
+  if (price < 2.80) return { label: 'Comfortable', cls: 'badge-green' };
+  if (price < 3.40) return { label: 'Achievable', cls: 'badge-amber' };
+  return { label: 'Tight', cls: 'badge-red' };
+}
+
+function render() {
+  const equip    = parseFloat(document.getElementById('equip').value);
+  const labor    = parseFloat(document.getElementById('labor').value);
+  const overhead = parseInt(document.getElementById('overhead').value);
+  const adder    = parseFloat(document.getElementById('adder').value);
+
+  const cogs    = equip + labor;
+  const redline = cogs + adder;
+  const gmPct   = adder / redline;
+
+  document.getElementById('equip-out').textContent   = fmtW(equip);
+  document.getElementById('labor-out').textContent   = fmtW(labor);
+  document.getElementById('overhead-out').textContent = '$' + overhead.toLocaleString();
+  document.getElementById('adder-out').textContent   = fmtW(adder);
+  document.getElementById('cogs-total').textContent  = fmtW(cogs);
+  document.getElementById('chip-equip').textContent  = fmtW(equip);
+  document.getElementById('chip-labor').textContent  = fmtW(labor);
+
+  const refWatts   = REF_KW * 1000;
+  const refOhW     = overhead / refWatts;
+  const refGmDollar = adder * refWatts;
+  const coversOH   = adder >= refOhW;
+
+  document.getElementById('m-cogs').textContent     = fmtW(cogs);
+  document.getElementById('m-oh').textContent       = fmtW(refOhW);
+  document.getElementById('m-covers').textContent   = coversOH ? 'Yes ✓' : 'No ✗';
+  document.getElementById('m-covers').style.color   = coversOH ? '#3b6d11' : '#a32d2d';
+  document.getElementById('m-redline').textContent  = fmtW(redline);
+  document.getElementById('m-gmDollar').textContent = fmtDollar(refGmDollar);
+  document.getElementById('m-gmpct').textContent    = fmtPct(gmPct);
+
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+
+  kwScenarios.forEach(kw => {
+    const watts     = kw * 1000;
+    const ohPerW    = overhead / watts;
+    const gmDollar  = adder * watts;
+    const covers    = adder >= ohPerW;
+    const zone      = getZone(redline);
+    const isRef     = kw === REF_KW;
+
+    const tr = document.createElement('tr');
+    if (isRef) tr.classList.add('highlight');
+
+    tr.innerHTML =
+      '<td>' + kw.toLocaleString() + ' kW' + (isRef ? ' <span class="star">★</span>' : '') + '</td>' +
+      '<td>' + fmtW(cogs) + '</td>' +
+      '<td>' + fmtW(ohPerW) + '</td>' +
+      '<td style="color:' + (covers ? '#3b6d11' : '#a32d2d') + '; font-weight:500;">' + (covers ? 'Yes ✓' : 'No ✗') + '</td>' +
+      '<td style="font-weight:600;">' + fmtW(redline) + '</td>' +
+      '<td>' + fmtDollar(gmDollar) + '</td>' +
+      '<td style="font-weight:500;">' + fmtPct(gmPct) + '</td>' +
+      '<td><span class="badge ' + zone.cls + '">' + zone.label + '</span></td>';
+
+    tbody.appendChild(tr);
+  });
+}
+
+['equip','labor','overhead','adder'].forEach(id => {
+  document.getElementById(id).addEventListener('input', render);
+});
+
+render();
+</script>
+</body>
+</html>
